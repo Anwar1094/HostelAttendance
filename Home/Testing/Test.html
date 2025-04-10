@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cookie Demo</title>
+</head>
+
+<body>
+    <h1>Cookie Test</h1>
+    <button onclick="setCookie()">Set Cookie</button>
+    <button onclick="checkCookies()">Send Request</button>
+
+    <script>
+        // function setCookie() {
+        //     document.cookie = "user=JohnDoe; path=/; Secure";
+        //     alert("Cookie has been set!");
+        // }
+        function setCookie() {
+            fetch('http://localhost:3001/set-cookie', {
+                method: 'GET',
+                credentials: 'include' // Ensures cookies are stored
+            })
+                .then(response => response.text())
+                .then(data => alert(data))
+                .catch(error => console.error('Error:', error));
+        }
+
+        function checkCookies() {
+            fetch('http://localhost:3001/read-cookies', {
+                method: 'GET',
+                credentials: 'include' // Ensures cookies are sent
+            })
+                .then(response => response.json())
+                .then(data => console.log('Cookies from server:', data)) // Logs received cookies
+                .catch(error => console.error('Error:', error));
+        }
+
+    </script>
+</body>
+
+</html>

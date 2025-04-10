@@ -1,0 +1,974 @@
+
+
+
+
+
+/* select all element  */
+
+#gen{
+  display: inline;
+}
+.complain-inp{
+  width: 99%;
+  margin-bottom: 1%;
+}
+/* .date-calender {
+  position: absolute;
+  background-color: green;
+  left: 0;
+  margin-left: 6%;
+  top: 50%;
+  transform: translateY(-50%);
+  height: 80%;
+  width: 40%;
+} */
+
+/* .list-of-holidays-div {
+  position: absolute;
+  background: rgb(221, 221, 221);
+  right: 0;
+  margin-right: 6%;
+  height: 80%;
+  width: 40%;
+  border: 2px solid black;
+  top: 50%;
+  transform: translateY(-50%);
+} */
+
+/* .label-list-of-holidays-div {
+  position: absolute;
+  text-align: center;
+  width: 100%;
+  background: red;
+  /* padding-top: 1.5px; */
+  /* padding-bottom: 1.5px; */
+  /* border-bottom: 1px solid black; */
+/* } */ 
+
+.data-container {
+  position: absolute;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1px;
+  max-height: 90%;
+  overflow-y: auto;
+  padding-right: 15px;
+  top: 40px;
+  left: 50%;
+  width: 95%;
+  transform: translateX(-50%);
+}
+
+.data-box {
+  border: 1px solid #333;
+  padding: 15px;
+  
+  width: 100%;  /* Makes the box take up the available space */
+  /* min-width: 10; Prevents the box from getting too wide */
+  text-align: left;
+  background-color: #f9f9f9;
+  box-sizing: border-box;  /* Ensures padding and border are included in the width */
+  margin-bottom: 15px;  /* Adds spacing between stacked items */
+}
+
+/* Custom Scrollbar */
+.data-container::-webkit-scrollbar {
+  width: 10px; /* Width of the scrollbar */
+  
+}
+
+.data-container::-webkit-scrollbar-track {
+  background-color: #f1f1f1; /* Track color */
+  border-radius: 10px;
+  
+}
+
+.data-container::-webkit-scrollbar-thumb {
+  background-color: #888; /* Scrollbar handle color */
+  border-radius: 10px;
+  border: 3px solid #f1f1f1; /*Add space between the handle and track*/
+}
+
+.data-container::-webkit-scrollbar-thumb:hover {
+  background-color: #555; /* Color of the handle when hovered */
+}
+
+
+
+  /* insert first media quier */
+/* Responsive Design */
+
+  /* media queri code for laptop or computer screen  */
+
+  @media screen and (max-width: 980px) {
+
+
+    .navbar {
+      display: grid;
+      grid-template-columns: 10% 78% 12%;
+      justify-items: center;
+    }
+
+    .invertis-logo-media {
+      display: block;
+      width: 200px;
+      height: 80px;
+      margin: 20px;
+      align-items: center;
+     
+    }
+
+    .invertis-logo-media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+  
+    .nav-links-a:after {
+      position: relative;
+    }
+
+
+    .nav-links-a:hover {
+      color: rgba(255, 255, 255, 0.604);
+    }
+    .nav-links {
+      display: none;
+      flex-direction: column;
+      position: absolute;
+      top: 120px;
+      left: 0;
+      width: 250px;
+      background: #444;
+      z-index: 10;
+      padding: 10px 0;
+      justify-content: left;
+      text-align: left;
+    }
+
+
+    .nav-links a {
+      color: white;
+    }
+    .invertis-logo {
+      display: none;
+    }
+  
+    .hamburger {
+      display: flex;
+      align-self: center;
+    }
+  
+    .nav-links.active {
+      display: flex;
+    }
+  
+    .student-details-div {
+      width: 300px;
+      height: 75vh;
+      margin: 2%;
+    }
+  
+    .content-container {
+      /* max-height: 500px; */
+      height: 400px;
+      overflow-y: auto;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: auto auto;
+    }
+  
+    .field {
+      display: flex;
+      justify-content: center;
+      text-align: center;
+      width: 100%;
+    }
+    .academic-calendar {
+      width: 60%;
+      height: 75vh;
+    }  
+
+}
+
+
+ .content-container {
+  /* max-height: 500px; */
+  height: 490px;
+  overflow-y: auto;
+} 
+.grid {
+  display: grid;
+  grid-template-columns: auto auto;
+}
+
+.field {
+  display: flex;
+  justify-content: center;
+  text-align: center;
+  width: 100%;
+}
+
+  /* end */
+
+
+
+  /* second media quier */
+
+  /* media queri for teblate scrren  */
+
+
+
+
+  @media screen and (max-width: 600px) 
+  {
+
+      .grid {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        width: 100%;
+      }
+
+      .field {
+        width: 100%;
+        display: flex;
+        justify-content: center;
+        margin: 0%;
+      }
+
+      .Personal-Details-Div input{
+        width: 100%;
+      }
+      .navbar {
+        grid-template-columns: 10% 76% 14%;
+       }  
+       .content-container {
+        /* max-height: 500px; */
+        height: 400px;
+        overflow-y: auto;
+      }
+     }
+
+
+  /* end */
+
+
+
+      /* Mark Attendance Window Css code start here */
+
+
+
+
+/*  third media quier*/
+ /* media queri code  */
+ @media (max-width: 830px) 
+ {
+       .form-group {
+           margin-bottom: 15px;
+       }
+ 
+       .form-group input {
+         padding: 10px;
+     }
+     .button {
+         padding: 10px 20px;
+     }
+     table th, table td {
+         padding: 10px;
+     } 
+ 
+     .academic-calendar {
+         top: 78%;
+         left: 50%;
+         transform: translateX(-50%);
+         width: 80%;
+       }
+ 
+       .slideshow{
+         display: flex;
+         flex-direction: column;
+         align-items: center;
+         justify-items: center;
+         overflow-y: scroll;
+         height: 100vh;
+       }
+ 
+ 
+ }
+
+  
+  @keyframes bgSlideshow {
+    0% { background-image: url('campus-facilities-slide3.jpg'); }
+    33% { background-image: url('invertis_main_gate_img.jpg'); }
+    66% { background-image: url('Admin_img.jpg'); }
+    100% { background-image: url('campus-facilities-slide3.jpg'); }
+  }
+
+  /* last media quier */
+/* media queri code for mobile view  */
+
+
+@media screen and (max-width: 480px) {
+
+}
+
+
+
+  /* end */
+
+
+/* .content-container button#Save {
+  display: flex;
+  font-size: 1rem;
+  margin-top: 0.5rem;
+  border-radius: 20px;
+  outline: none;
+  border: none;
+  width: 30%;
+  height: 90%;
+  color: #fff;
+  cursor: pointer;
+  background-color: rgb(17, 107, 143);
+  height: 30px;
+  align-items: center;
+  justify-content: center;
+  justify-self: center;
+} */
+
+/* .content-container #Save:hover {
+  background-color: rgb(17, 107, 143, 0.877);
+} */
+
+/* .content-container #Save:disabled {
+  background-color: gray;
+} */
+/* .content-container :hover {
+  background: #ed3636;
+} */
+/* .grid {
+  display: flow-root;
+
+  /* grid-template-columns: 1fr 1fr 1fr; */
+  /* gap: 20px; */
+  /* max-width: 480px; */
+/* } */
+/* .field {
+  /* display: flex; */
+  /* float: left; */
+
+  /* flex-direction: column;
+  width: 27%;
+  margin-left: 6%;
+} */ 
+/* .field label {
+  display: flex;
+  width: 80%;
+  align-items: center;
+  margin: 5px;
+}
+
+.field input {
+  width: 80%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+} */
+/* .field select{
+  margin-top: 3%;
+  width: 80%;
+  height: 32px;
+  padding-left: 10px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  background-color: #f9f9f9;
+  margin-bottom: 4%;
+} */
+/* Responsive Design */
+/* @media screen and (max-width: 980px) {
+  .navbar {
+    display: grid;
+    grid-template-columns: 10% 78% 12%;
+    justify-items: center;
+  } */
+/* 
+  .invertis-logo-media {
+    display: block;
+    width: 200px;
+    height: 80px;
+    margin: 20px;
+    align-items: center;
+    /* justify-content: center; */
+  /* } */
+
+  /* .invertis-logo-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .nav-links-a:after {
+    position: relative;
+  }
+
+  .nav-links-a:hover {
+    color: rgba(255, 255, 255, 0.604);
+  } */
+  /* .nav-links {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 120px;
+    left: 0;
+    width: 250px;
+    background: #444;
+    z-index: 10;
+    padding: 10px 0;
+    justify-content: left;
+    text-align: left;
+  } */
+
+  /* .nav-links a {
+    color: white;
+  }
+  .invertis-logo {
+    display: none;
+  }
+
+  .hamburger {
+    display: flex;
+    align-self: center;
+  }
+
+  .nav-links.active {
+    display: flex;
+  }
+
+  .student-details-div {
+    width: 300px;
+    height: 75vh;
+    margin: 2%;
+  } */
+
+  /* .content-container {
+    max-height: 500px;
+    /* width: 300px; */
+    /* overflow-y: auto; */
+  /* } */ 
+  /* .grid {
+    display: grid;
+    grid-template-columns: auto auto;
+  }
+
+  .field {
+    display: flex;
+    justify-content: center;
+    text-align: center;
+    width: 100%;
+  }
+  .academic-calendar {
+    width: 60%;
+    height: 75vh;
+  }
+} */
+
+/* @media screen and (max-width: 600px) {
+  .grid {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    width: 100%;
+    /* grid-template-columns: auto auto; */
+  /* }  */
+
+  /* .field {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    margin: 0%;
+  }
+
+  .Personal-Details-Div input {
+    width: 100%;
+  }
+  .navbar {
+    grid-template-columns: 10% 76% 14%;
+  }
+} */
+
+/* Mark Attendance Window Css */
+/* .markAttendance {
+  display: none;
+  border-radius: 10px;
+  flex-direction: column;
+  align-items: center;
+  padding: 22px;
+  background-color: white;
+  box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.2);
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 36%;
+  /* transform: translateY(-50%); */
+  /* width: 500px;
+  height: 440px;
+} */
+
+/* video {
+  width: 100%;
+  max-width: 300px;
+  border-radius: 10px;
+  padding: 4px;
+  /* border: 1px solid #000; */
+/* }  */
+/* 
+#captured-images {
+  display: flex;
+  gap: 10px;
+} */
+
+/* img {
+  max-width: 100px;
+} */
+
+/* Personal Details Div */
+/* .Personal-Details-Div input {
+  /* width: 180px; */
+  /* height: 30px;
+  font-size: 16px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  outline: none;
+  max-width: 400px;
+} */ 
+
+/* div#entry {
+  display: flex;
+  flex-direction: column;
+} */
+
+/* Mark Attendance CSS */
+/* .markAttendance button {
+  display: flex;
+  font-size: 1rem;
+  margin-top: 0.5rem;
+  border-radius: 20px;
+  outline: none;
+  border: none;
+  width: 50%;
+  height: 90%;
+  color: #fff;
+  cursor: pointer;
+  background-color: rgb(17, 107, 143);
+  height: 30px;
+  align-items: center;
+  justify-content: center;
+  justify-self: center;
+} */
+
+/* button:hover {
+  background-color: rgb(17, 107, 143, 0.877);
+}
+
+#submitAttendance:disabled {
+  background-color: gray;
+}
+
+button#btnText-captureImage:disabled {
+  background-color: grey;
+} */
+
+/* .spinner {
+  display: none;
+  position: absolute;
+  width: 25px;
+  height: 25px;
+  border: 3px solid white;
+  border-top: 3px solid transparent;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  justify-self: center;
+} */
+
+/* Scanning Effect Start */
+/* .scanner {
+  position: relative;
+  width: 208px;
+  height: 158px;
+  border: 3px solid #0095ff;
+  overflow: hidden;
+  border-radius: 10px;
+  width: 300px;
+  height: 228px;
+  /* background-image: url(image2.png); */
+  /* margin-bottom: 2%;
+} */ 
+
+/* .scan-line {
+  position: absolute;
+  top: -50px;
+  /* Start above the scanner */
+  /* left: 0;
+  width: 100%;
+  height: 2px;
+  background: #0095ff;
+  animation: scan 4s linear infinite;
+  filter: drop-shadow(0 0 8px #0095ff) drop-shadow(0 0 8px #0095ff);
+} */ 
+/* .scan-face {
+  position: absolute; */
+  /* top: px; */
+  /* Start above the scanner */
+  /* top: 0px; */
+  /* left: 0;
+  width: 150%;
+  height: 0%;
+  background-image: url(image5.png);
+  background-repeat: no-repeat;
+  background-size: 22.5vw 23vh;
+  animation: scanFace 3s linear infinite;
+} */
+
+/* #entry {
+  margin-bottom: 5%;
+}
+
+#stuID-lbl {
+  text-align: center;
+  margin-bottom: 5%;
+}
+
+#stuID {
+  font-size: 16px;
+  color: #00ff6e;
+} */
+
+/* @keyframes scanFace {
+  100%,
+  0% {
+    height: 0%;
+  }
+  50% {
+    height: 100%;
+  }
+}
+
+@keyframes scan {
+  0%,
+  100% {
+    top: 0%;
+  }
+  50% {
+    top: 100%;
+  }
+} */
+
+/* @keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+} */
+
+/* View Attendance CSS */
+/* .view-atten-container {
+  display: none;
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 20px;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  animation: fadeIn 1s ease-in-out;
+} */
+/* .view-atten-header {
+  background: linear-gradient(to right, #54b2ff, #2196f3);
+  color: white;
+  text-align: center;
+  padding: 20px;
+  border-radius: 12px 12px 0 0;
+  margin-bottom: 13px;
+}
+.view-atten-header h1 {
+  margin: 0;
+  font-size: 2.5em;
+}
+.form-group {
+  margin-bottom: 20px;
+} */
+/* .form-group label {
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #333;
+}
+.form-group input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+} */
+/* .form-group input:focus {
+  border-color: #2196f3;
+  box-shadow: 0 0 8px rgba(255, 65, 108, 0.5);
+  outline: none;
+}
+.show-atten-button {
+  display: inline-block;
+  padding: 12px 24px;
+  background-color: #2196f3;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, transform 0.3s ease;
+  animation: bounce 1s infinite;
+} */
+/* .show-atten-button:hover {
+  background-color: #50adfa;
+  transform: scale(1.05);
+}
+.pd-data-container {
+  overflow-x: auto;
+  overflow-y: auto;
+  max-height: 210px;
+  margin-top: 20px;
+} */
+/* .table-container {
+  overflow-x: auto;
+  margin-top: 20px;
+} */
+/* table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+table th,
+table td {
+  padding: 14px;
+  border: 1px solid #ddd;
+  text-align: left;
+} */
+/* table th {
+  /* background-color: #ff416c; */
+  /* background-color: #2196f3;
+  color: white;
+} */
+/* table tr:nth-child(even) {
+  background-color: #f9f9f9; */
+  /* background-color: red; */
+/* }  */
+
+/* .slide-in {
+  animation: slideIn 0.5s ease-in-out;
+}
+.hover-grow {
+  transition: transform 0.3s ease-in-out;
+}
+.hover-grow:hover {
+  transform: scale(1.05);
+}
+@media (max-width: 830px) {
+  .form-group {
+    margin-bottom: 15px;
+  }
+  .form-group input {
+    padding: 10px;
+  }
+  .button {
+    padding: 10px 20px;
+  }
+  table th,
+  table td {
+    padding: 10px;
+  } */
+
+  /* .student-details-div {
+    position: relative;
+  } */
+
+  /* .academic-calendar {
+    top: 78%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+  }
+
+  .slideshow {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-items: center;
+    overflow-y: scroll;
+    height: 100vh; */
+    /* grid-template-rows: auto auto; */
+    /* left: 0%; */
+  /* }
+} */
+/* @media (max-width: 480px) {
+  .header h1 {
+    font-size: 1.8em;
+  }
+
+  .form-group input {
+    padding: 8px;
+  }
+  .button {
+    padding: 8px 16px;
+  }
+  table th,
+  table td {
+    padding: 8px;
+  }
+  .navbar {
+    grid-template-columns: 10% 70% 20%;
+    /* width: 100%; */
+  /* }
+  .slideshow {
+    width: 478px;
+  }
+} */ 
+
+/* Complain CSS */
+
+/*  */
+/* .complain {
+  display: none;
+  background: white;
+  padding: 15px;
+  width: 600px;
+
+  border-radius: 8px;
+  box-shadow: 0px 4px 10px rgba(55, 56, 64, 0.2);
+  text-align: center;
+  max-width: 80%;
+  box-sizing: border-box;
+  margin: auto auto;
+  /* margin-top: 14px; */
+  /* height: auto;
+  margin-top: 10px;
+} */ 
+/* .complain_header {
+  background: #2e6edc;
+  color: white;
+  padding: 15px;
+  font-size: 20px;
+  font-weight: bold;
+  border-radius: 8px 8px 0 0;
+  width: 100%;
+  box-sizing: border-box;
+} */
+
+/* Form */
+/* #complaintForm {
+  display: flex;
+  flex-direction: column;
+  padding: 15px;
+  width: 100%;
+  box-sizing: border-box;
+} */
+
+/* Labels */
+/* label {
+  text-align: left;
+  font-size: 14px;
+  font-weight: bold;
+  margin-top: 10px;
+} */
+
+/* Input Fields */
+/* input,
+select,
+textarea {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+} */
+
+/* Submit Button */
+/* button {
+  margin-top: 15px;
+  padding: 10px;
+  background: #2e6edc;
+  color: white;
+  border: none;
+  cursor: pointer;
+  font-size: 14px;
+  border-radius: 5px;
+  font-weight: bold;
+  width: 100%;
+  box-sizing: border-box;
+} */
+
+/* button:hover {
+  background: #ed3636;
+}
+
+.hidden {
+  display: none;
+}
+.thank-you-message {
+  text-align: center;
+  padding: 20px;
+  font-size: 18px;
+  font-weight: bold;
+  background: #f1efef;
+  color: green;
+} */
+
+/* @keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@keyframes slideIn {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+} */
+/* @keyframes bounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+} */
+
+/* @keyframes bgSlideshow {
+  0% {
+    background-image: url("campus-facilities-slide3.jpg");
+  }
+  33% {
+    background-image: url("invertis_main_gate_img.jpg");
+  }
+  66% {
+    background-image: url("Admin_img.jpg");
+  }
+  100% {
+    background-image: url("campus-facilities-slide3.jpg");
+  }
+} */
+
+#att-h1{
+  padding: 2px;
+  margin-bottom: 8px;
+}
