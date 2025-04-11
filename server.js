@@ -30,7 +30,7 @@ const upload = multer({ storage });
 
 // By-passing data transfer policy of browser
 app.use(cors({
-    origin: "http://127.0.0.1:5502",  // **Frontend URL (no '*')**
+    origin: "https://hostelattendance.onrender.com/",  // **Frontend URL (no '*')**
     credentials: true,
 }))
 app.use(cookieParser());
