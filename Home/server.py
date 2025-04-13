@@ -165,4 +165,4 @@ def verify():
 #     return cookies
 
 if __name__ == '__main__':
-    app.run()
+    app.run(port=getenv('PORT'))
