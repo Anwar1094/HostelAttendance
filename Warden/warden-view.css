@@ -1,0 +1,1183 @@
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
+
+.nav-links-a {
+  position: relative;
+  text-decoration: none;
+  font-family: "Poppins", sans-serif;
+  color: black;
+  font-size: 18px;
+  letter-spacing: 0.5px;
+  padding: 0 10px;
+}
+
+.nav-links-a:after {
+  content: "";
+  position: absolute;
+  background-color: #ff3c78;
+  height: 3px;
+  width: 0;
+  left: 0;
+  bottom: 0px;
+  transition: 1.2s;
+}
+
+.Managed-Student-dropbtn:after {
+  content: "";
+  position: absolute;
+  background-color: #ff3c78;
+  height: 3px;
+  width: 0;
+  left: 0;
+  bottom: -10px;
+  transition: 1.2s;
+}
+
+.nav-links-a:hover:after {
+  width: 100%;
+}
+
+.Managed-Student-dropbtn:hover:after {
+  width: 100%;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+.navbar {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  flex-wrap: wrap;
+  background: white;
+  border-bottom: 3px solid #d9534f;
+}
+
+.invertis-logo {
+  display: block;
+  width: 200px;
+  height: 80px;
+  margin: 20px;
+}
+
+.invertis-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.invertis-logo-media {
+  display: none;
+}
+
+.nav-links {
+  align-items: center;
+  list-style: none;
+  display: flex;
+  gap: 10px;
+  font-weight: 700;
+  padding-inline-start: 0px;
+}
+
+.nav-links li {
+  /* display: inline-block; */
+  position: relative;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: #11101b;
+  padding: 10px 15px;
+  border-radius: 10px 10px 0 10px;
+  display: block;
+  transition: 0.3s;
+}
+
+.main-body-div {
+  display: none;
+}
+
+.Managed-Student-dropbtn {
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+  background-color: white;
+  color: black;
+  padding: 0px;
+  font-size: 18px;
+  border: none;
+  font-weight: 700;
+}
+
+.Managed-Student-dropdown {
+  position: relative;
+  display: inline-block;
+}
+
+.Managed-Student-dropdown-content {
+  display: none;
+  position: absolute;
+  background-color: #f1f1f1;
+  min-width: 100px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+  top: 45px;
+}
+
+.Managed-Student-dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+  font-size: 13px;
+}
+
+.Managed-Student-dropdown-content a:hover {
+  background-color: #ddd;
+}
+
+.Managed-Student-dropdown:hover .Managed-Student-dropdown-content {
+  display: block;
+}
+
+.profile {
+  position: relative;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+#profileImage {
+  width: 65px;
+  height: 65px;
+  border-radius: 50%;
+  border: 2px solid #1216f3;
+  cursor: pointer;
+}
+
+.profile-dropdown {
+  display: none;
+  position: absolute;
+  right: 35%;
+  top: 120px;
+  background: rgb(255, 255, 255);
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  width: 180px;
+  text-align: left;
+  z-index: 10;
+}
+
+.profile:hover .profile-dropdown {
+  display: block;
+}
+
+.profile-dropdown a {
+  display: block;
+  padding: 8px;
+  text-decoration: none;
+  color: rgb(0, 0, 0);
+}
+
+.profile-dropdown a:hover {
+  background: #f0f0f0;
+}
+
+.hamburger {
+  display: none;
+  flex-direction: column;
+  cursor: pointer;
+  /* z-index: 10; */
+}
+
+.hamburger span {
+  width: 30px;
+  height: 3px;
+  background: rgb(6, 43, 175);
+  margin: 5px;
+  transition: 0.3s;
+}
+
+/* Responsive Design */
+@media screen and (max-width: 800px) {
+  .navbar {
+    /* display: grid; */
+    /* grid-template-columns: 10% 78% 12%; */
+    justify-items: center;
+  }
+
+  .invertis-logo-media {
+    display: block;
+    width: 200px;
+    height: 80px;
+    margin: 20px;
+    align-items: center;
+    /* justify-content: center; */
+  }
+
+  .invertis-logo-media img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .nav-links-a:after {
+    position: relative;
+  }
+
+  .nav-links-a:hover {
+    color: rgba(255, 255, 255, 0.604);
+  }
+
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    position: absolute;
+    top: 120px;
+    left: 0;
+    width: 250px;
+    background: #444;
+    z-index: 10;
+    padding: 10px 0;
+    justify-content: left;
+    text-align: left;
+  }
+
+  .nav-links a {
+    color: white;
+  }
+
+  .Managed-Student-dropbtn {
+    background: #444;
+    color: white;
+  }
+
+  .Managed-Student-dropbtn:after {
+    position: relative;
+  }
+
+  .Managed-Student-dropdown-content {
+    width: 220px;
+    left: -40px;
+    top: 20px;
+    background: #444;
+  }
+
+  .Managed-Student-dropbtn:hover {
+    color: rgba(255, 255, 255, 0.604);
+  }
+
+  .Managed-Student-dropdown-content a:hover {
+    color: black;
+  }
+
+  .invertis-logo {
+    display: none;
+  }
+
+  .hamburger {
+    display: flex;
+    align-self: center;
+  }
+
+  .nav-links.active {
+    display: flex;
+  }
+}
+
+.main-body-div {
+  position: relative;
+  height: 83.2vh;
+}
+
+.warden-details-div {
+  position: absolute;
+  width: 35%;
+  height: 90%;
+  margin: 1%;
+  margin-top: 2%;
+  margin-left: 2%;
+  background: rgb(221, 221, 221);
+  opacity: 0.9;
+  border: 3px solid black;
+  border-radius: 20px;
+}
+
+.warden-details-nav-div {
+  position: absolute;
+  width: 96%;
+  height: 20%;
+  margin: 2%;
+  background: rgb(221, 221, 221);
+  opacity: 0.9;
+}
+
+#warden-details-div-profileImage {
+  position: absolute;
+  display: flex;
+  border-radius: 50%;
+  border: 2px solid blue;
+  width: 20%;
+  height: auto;
+  margin-left: 2%;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+#warden-details-div-name-labels {
+  position: absolute;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
+  text-align: center;
+  align-items: center;
+  top: 14%;
+  left: 40%;
+  padding: 10px;
+  width: 50%;
+  background: rgb(221, 221, 221);
+  color: black;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
+  opacity: 0.9;
+}
+
+#warden-details-div-wardenid-labels {
+  position: absolute;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
+  text-align: center;
+  align-items: center;
+  top: 45%;
+  left: 40%;
+  padding: 10px;
+  margin-top: 3%;
+  width: 50%;
+  background: rgb(221, 221, 221);
+  color: black;
+  opacity: 0.9;
+}
+
+.vertical-line {
+  position: absolute;
+  border: 2px solid black;
+  width: 100%;
+  top: 25%;
+}
+
+.hostel-and-room-label {
+  position: absolute;
+  display: grid;
+  justify-content: center;
+  font-size: 150%;
+  color: #11101b;
+  width: 100%;
+  top: 32%;
+}
+
+.value-bar-container {
+  position: absolute;
+  width: 60%;
+  max-width: 300px;
+  height: 20px;
+  background-color: #ddd;
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid #aaa;
+}
+
+.value-bar {
+  position: absolute;
+  height: 100%;
+  width: 0%;
+  background-color: #2196f3;
+  text-align: right;
+  line-height: 20px;
+  color: white;
+  font-weight: bold;
+  transition: width 0.5s;
+  margin-left: 2%;
+}
+
+.attendance-visulization-div {
+  position: absolute;
+  display: grid;
+  width: 100%;
+  height: 45%;
+  top: 43%;
+}
+
+.attendance-visulization-totalattendance-label {
+  position: absolute;
+  top: 5%;
+  left: 21%;
+}
+
+.attendance-visulization-totalpresent-label {
+  position: absolute;
+  top: 40%;
+  left: 21%;
+}
+
+.attendance-visulization-totalabsent-label {
+  position: absolute;
+  top: 75%;
+  left: 21%;
+}
+#value-bar-totalattendance-container {
+  position: absolute;
+  top: 15%;
+  left: 21%;
+  margin-top: 3%;
+}
+
+#value-bar-totalpresent-container {
+  position: absolute;
+  top: 50%;
+  left: 21%;
+  margin-top: 3%;
+}
+
+#value-bar-totalabsent-container {
+  position: absolute;
+  top: 85%;
+  left: 21%;
+  margin-top: 3%;
+}
+
+.academic-calendar {
+  position: absolute;
+  display: flex;
+  width: 59%;
+  left: 38%;
+  height: 90%;
+  margin: 1%;
+  margin-top: 2%;
+  background: rgb(221, 221, 221);
+  opacity: 0.9;
+  border: 3px solid black;
+  border-radius: 20px;
+}
+
+
+.wrapper{
+  width: 500px;
+  /* width: 440PX; */
+  padding: 2rem 1rem;
+  margin: 200px auto;
+  background-color: #fff;
+  border-radius: 10px ;
+  text-align: center;
+  box-shadow: 0 20px 35px rgb(0, 0,0,0.1);
+
+}
+
+h1{
+  font-size: 2rem;
+  color: #07001f;
+  margin-bottom: 1.2rem;
+
+}
+
+
+button{
+  display: flex;
+  font-size: 1rem;
+  margin-top: 1.8rem;
+  border-radius: 20px;
+  outline: none;
+  border: none;
+  width: 90%;
+  height: 90%;
+  color: #fff;
+  cursor: pointer;
+  background-color: rgb(17, 107, 143);
+  height: 30px;
+  align-items: center;
+  justify-content: center;
+  justify-self: center;
+}
+
+button:hover{
+  background-color: rgb(17, 107, 143,0.877);
+
+}
+
+input:focus{
+  border: 1px solid rgb(192, 192, 192);
+}
+
+.terms{
+  margin-top: 0.2rem;
+
+}
+.terms input{
+  height: 1em;
+  width: 1em;
+  vertical-align: middle;
+  cursor: pointer;
+}
+.terms label{
+  font-size: 0.7rem;
+
+}
+.terms a{
+  color: rgb(17, 107, 143);
+  text-decoration: none;
+}
+
+.recover{
+  text-align: right;
+  font-size: 0.8rem;
+  margin: 0.3rem 1.4rem 0 0;
+}
+
+.recover a{
+  text-decoration: none;
+  color: rgba(54, 54, 54, 0.749);
+}
+
+  
+
+
+.input-group {
+  position: relative;
+  margin: 20px 0;
+}
+
+.input-group label {
+  position: absolute;
+  top: 47%;
+  left: 25px;
+  transform: translateY(-50%);
+  font-size: 17px;
+  color: rgb(17, 107, 143);
+  padding: 0 5px;
+  pointer-events: none;
+  transition: .5s;
+}
+
+.input-group input {
+  width: 433px;
+  height: 65px;
+  font-size: 16px;
+  color: rgb(17, 107, 143);
+  padding: 0 15px;
+  background: transparent;
+  border: 1.2px solid rgb(17, 107, 143);
+  outline: none;
+  border-radius: 5px;
+}
+
+.input-group input:focus~label,
+.input-group input:valid~label {
+  top: 0;
+  font-size: 14px;
+  background: white;
+}
+
+.spinner {
+  display: none;
+  position: absolute;
+  width: 25px;
+  height: 25px;
+  border: 3px solid white;
+  border-top: 3px solid transparent;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  justify-self: center;
+}
+
+#btnText-signin {
+  /* display: none; */
+  position: relative;
+}
+
+/* button#forget_btn .spinner {
+  bottom: 23%;
+} */
+
+/* #spinner-updatePswrd {
+  bottom: 13.2%;
+} */
+
+button#forget_btn:disabled{
+  background-color: grey;
+  /* background-color: #00ff00; */
+}
+
+@keyframes spin {
+  0% {
+      transform: rotate(0deg);
+  }
+  100% {
+      transform: rotate(360deg);
+  }
+}
+
+.spinDiv {
+  padding-bottom: 26px;
+}
+
+
+
+.addStudentDiv {
+  display: none;
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 65%;
+  height: 541px;
+  padding: 20px;
+  background: red;
+  color: white;
+  border-radius: 8px;
+  text-align: center;
+}
+
+/* start attendance summary */
+
+.sum_container {
+  display: none;
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  max-width: 80%;
+  text-align: center;
+  margin: auto auto;
+  height: auto;
+  margin-top: 15px;
+}
+
+.summ_header {
+  background: #2e6edc;
+  color: white;
+  padding: 15px;
+  font-size: 22px;
+  font-weight: bold;
+  border-radius: 8px 8px 0 0;
+}
+
+.s_date-filter,
+.sum_search-filter {
+  margin: 10px 0;
+  text-align: left;
+  width: 100%; /* Ensuring same width as other divs */
+  display: flex;
+  flex-direction: column;
+}
+
+.s_date-filter label,
+.sum_search-filter label {
+  font-weight: bold;
+  display: block;
+}
+
+.s_date-filter input,
+#searchStudent {
+  width: 100%;
+  padding: 10px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.sum_show-btn {
+  width: 100%;
+  padding: 10px;
+  background: #007bff;
+  color: white;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  margin: 10px 0;
+  border-radius: 5px;
+}
+
+.sum_show-btn:hover {
+  background: #eb4040;
+}
+
+.summary_table-container {
+  max-height: 400px;
+  overflow-y: auto;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  width: 100%; /* Ensuring the same width */
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: center;
+}
+
+th {
+  background: #007bff;
+  color: white;
+}
+
+/* end attendance summary */
+
+/* Start Students Complaint  window */
+
+.complain {
+  display: none;
+  background: white;
+  padding: 15px;
+  width: 900px;
+
+  border-radius: 8px;
+  box-shadow: 0px 4px 10px rgba(55, 56, 64, 0.2);
+  text-align: center;
+  max-width: 80%;
+  box-sizing: border-box;
+  margin: auto auto;
+  /* margin-top: 14px; */
+  height: auto;
+  margin-top: 10px;
+}
+
+.complain_warden {
+  background: #2e6edc;
+  color: white;
+  padding: 15px;
+  font-size: 20px;
+  font-weight: bold;
+  border-radius: 8px 8px 0 0;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.table-complaint {
+  margin-top: 10px;
+  /* background: white; */
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  overflow-x: auto;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+com {
+  text-overflow: inherit;
+}
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: center;
+}
+
+td .description-box {
+  color: rgb(210, 7, 7);
+  width: 100%;
+  height: 30px;
+  resize: none;
+  border: none;
+  background: transparent;
+  overflow-y: scroll; /* Enable scrolling */
+  scrollbar-width: none; /* Hide scrollbar for Firefox */
+  -ms-overflow-style: none; /* Hide scrollbar for Internet Explorer */
+}
+
+td .description-box::-webkit-scrollbar {
+  display: none; /* Hide scrollbar for Chrome, Safari */
+}
+
+th {
+  background: #007bff;
+  color: white;
+}
+
+tbody {
+  background: white;
+  color: rgb(210, 7, 7);
+}
+
+/* End Student Complaint window */
+
+/* add new student css  */
+/* .image-container {
+    width: 200px;
+    height: 80px;
+    margin: 20px;
+    
+} */
+
+/* .image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+} */
+
+* {
+  margin: 0;
+  padding-block-end: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+  background: white;
+}
+
+/* .bg-img{ */
+/* border-top: 3px solid red; */
+/* width: 100vh; */
+/* min-width: 330px; */
+/* min-height: 100vh; */
+/* background-image: url('Admin_img.jpg'); */
+/* background-repeat: no-repeat; */
+/* height: 100vh; */
+/* background-size: cover; */
+/* background-position: center; */
+
+/* } */
+
+.wrapper {
+  width: 500px;
+  /* width: 440PX; */
+  padding: 2rem 1rem;
+  margin: 200px auto;
+  background-color: #fff;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 20px 35px rgb(0, 0, 0, 0.1);
+}
+
+h1 {
+  font-size: 2rem;
+  color: #07001f;
+  margin-bottom: 1.2rem;
+}
+
+button {
+  display: flex;
+  font-size: 1rem;
+  margin-top: 1.8rem;
+  border-radius: 20px;
+  outline: none;
+  border: none;
+  width: 90%;
+  height: 90%;
+  color: #fff;
+  cursor: pointer;
+  background-color: rgb(17, 107, 143);
+  height: 30px;
+  align-items: center;
+  justify-content: center;
+  justify-self: center;
+}
+
+button:hover {
+  background-color: rgb(17, 107, 143, 0.877);
+}
+
+input:focus {
+  border: 1px solid rgb(192, 192, 192);
+}
+
+.terms {
+  margin-top: 0.2rem;
+}
+.terms input {
+  height: 1em;
+  width: 1em;
+  vertical-align: middle;
+  cursor: pointer;
+}
+.terms label {
+  font-size: 0.7rem;
+}
+.terms a {
+  color: rgb(17, 107, 143);
+  text-decoration: none;
+}
+
+.recover {
+  text-align: right;
+  font-size: 0.8rem;
+  margin: 0.3rem 1.4rem 0 0;
+}
+
+.recover a {
+  text-decoration: none;
+  color: rgba(54, 54, 54, 0.749);
+}
+
+.input-group {
+  position: relative;
+  margin: 20px 0;
+}
+
+.input-group label {
+  position: absolute;
+  top: 47%;
+  left: 25px;
+  transform: translateY(-50%);
+  font-size: 17px;
+  color: rgb(17, 107, 143);
+  padding: 0 5px;
+  pointer-events: none;
+  transition: 0.5s;
+}
+
+.input-group input {
+  width: 433px;
+  height: 65px;
+  font-size: 16px;
+  color: rgb(17, 107, 143);
+  padding: 0 15px;
+  background: transparent;
+  border: 1.2px solid rgb(17, 107, 143);
+  outline: none;
+  border-radius: 5px;
+}
+
+.input-group input:focus ~ label,
+.input-group input:valid ~ label {
+  top: 0;
+  font-size: 14px;
+  background: white;
+}
+
+.spinner {
+  display: none;
+  position: absolute;
+  width: 25px;
+  height: 25px;
+  border: 3px solid white;
+  border-top: 3px solid transparent;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  justify-self: center;
+}
+
+#btnText-signin {
+  /* display: none; */
+  position: relative;
+}
+
+/* button#forget_btn .spinner {
+    bottom: 23%;
+} */
+
+/* #spinner-updatePswrd {
+    bottom: 13.2%;
+} */
+
+button#forget_btn:disabled {
+  background-color: grey;
+  /* background-color: #00ff00; */
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.spinDiv {
+  padding-bottom: 26px;
+}
+
+/* add new student css  */
+
+.ManageHostelDiv {
+  display: none;
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  width: 80%;
+  text-align: center;
+}
+
+.hh {
+  color: #2e6edc;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  text-align: left;
+}
+
+input,
+select {
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+button {
+  width: 100%;
+  padding: 10px;
+  background: #007bff;
+  color: white;
+  font-size: 16px;
+  border: none;
+  cursor: pointer;
+  margin: 10px 0;
+  border-radius: 5px;
+}
+
+button:hover {
+  background: #0056b3;
+}
+
+.ManageHostelDiv {
+  margin-top: 20px;
+  background: white;
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+  width: 100%;
+  text-align: center;
+  overflow-x: auto; /* Enables horizontal scrolling for small screens */
+}
+
+/* Responsive Table */
+.ht {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+  min-width: 600px; /* Prevents table from shrinking too much */
+}
+
+.sh,
+td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  text-align: center;
+  white-space: nowrap; /* Prevents text from breaking into multiple lines */
+}
+
+.sh {
+  background: #007bff;
+  color: white;
+}
+
+/* Make table scrollable on small screens */
+@media screen and (max-width: 768px) {
+  .table-container {
+    overflow-x: auto;
+  }
+
+  table {
+    min-width: 600px; /* Ensures horizontal scrolling instead of breaking */
+  }
+
+  th,
+  td {
+    padding: 8px;
+    font-size: 14px; /* Reduces font size on small screens */
+  }
+}
+
+
+.pop-up {
+  text-align: center;
+  padding: 20px;
+  font-size: 18px;
+  font-weight: bold;
+  background: #f1efef;
+  color: green;
+}
+.hidden {
+  display: none;
+}
+
+/* Update Student Div */
+.updateStudentDiv {
+  display: none;
+  position: absolute;
+  margin-top: 2%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80%;
+}
+
+.updateStudentDiv input {
+  height: 30px;
+  font-size: 16px;
+  border-radius: 10px;
+  margin-bottom: 10px;
+  outline: none;
+  max-width: 400px;
+}
+
+.header {
+  background-color: #2196f3;
+  color: white;
+  font-size: 1.5rem;
+  font-weight: bold;
+  padding: 10px;
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+.content-container {
+  background-color: rgba(255, 255, 255, 0.8);
+  padding: 20px;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding-bottom: 20px;
+}
+
+.grid {
+  display: flow-root;
+}
+.field {
+  float: left;
+  flex-direction: column;
+  width: 27%;
+  margin-left: 6%;
+}
+.field label {
+  display: flex;
+  width: 80%;
+  align-items: center;
+  margin: 5px;
+}
+.field input {
+  width: 80%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+#pop-entry {
+  display: none;
+}

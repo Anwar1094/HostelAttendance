@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attendance Navbar</title>
+    <link rel="stylesheet" href="warden-view.css">
+    <link rel="stylesheet" href="/Calendar/calendar_style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <script defer src="warden-view.js"></script>
+    <script defer src="/Calendar/calendar.js"></script>
+    <script defe src="https://cdn.jsdelivr.net/npm/sweetalert2@7.12.15/dist/sweetalert2.all.min.js "></script>    
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="invertis-logo"><img src="invertis logo.jpg" alt="Logo"></div>
+        <div class="hamburger" id="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <div class="invertis-logo-media"><img src="invertis logo.jpg" alt="Logo"></div>
+
+        <ul class="nav-links" id="navLinks">
+            <li><a class="nav-links-a" onclick="loadHomeWindow()">Home</a></li>
+            <li class="nav-item">
+                <div class="Managed-Student-dropdown">
+                    <button class="Managed-Student-dropbtn">Manage Student</button>
+                    <div class="Managed-Student-dropdown-content">
+                        <a id="addStudentBtn" onclick="loadAddStudentWindow()">Add New Student</a>
+                        <a onclick="loadUpdateStudentpopup()">Update Existing Student</a>
+                        <a onclick="">Remove Student</a>
+                    </div>
+                </div>
+            </li>
+            <li><a class="nav-links-a" onclick="loadAttendanceSummary()">Attendence Summary</a></li>
+            <li><a class="nav-links-a" onclick="loadManageHostel()">Manage Hostel</a></li>
+            <li><a class="nav-links-a" onclick="loadStudentcomplaint()">View Complains</a></li>
+        </ul>
+
+        <div class="profile">
+            <img id="profileImage" src="user.png" alt="Profile">
+            <div class="profile-dropdown" id="profileDropdown">
+                <a>My Profile</a>
+                <label for="profileUpload"><a>Upload Profile Picture</a></label>
+                <input type="file" id="profileUpload" accept="image/*" hidden>
+                <a>Change Password</a>
+                <a>Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Home -->
+    <div class="main-body-div" id="main-body-div">
+        <div class="slideshow">
+            <div class="warden-details-div" id="warden-details-div">
+                <div class="warden-details-nav-div">
+                    <img id="warden-details-div-profileImage" src="user.png" alt="Profile">
+
+                    <label id="warden-details-div-name-labels">Warden Name</label>
+                    <label id="warden-details-div-wardenid-labels">User Id</label>
+
+                </div>
+                <div class="vertical-line"></div>
+                <label class="hostel-and-room-label" id="hostel-and-room-label">HOSTEL Name</label>
+                <div class="attendance-visulization-div">
+                    <label class="attendance-visulization-totalattendance-label">Total Students</label>
+                    <div class="value-bar-container" id="value-bar-totalattendance-container">
+                        <div class="value-bar" id="progressBar-totalattendance">0</div>
+                    </div>
+
+                    <label class="attendance-visulization-totalpresent-label">Total Students Present</label>
+                    <div class="value-bar-container" id="value-bar-totalpresent-container">
+                        <div class="value-bar" id="progressBar-totalpresent">0</div>
+                    </div>
+
+                    <label class="attendance-visulization-totalabsent-label">Total Students Absent</label>
+                    <div class="value-bar-container" id="value-bar-totalabsent-container">
+                        <div class="value-bar" id="progressBar-totalabsent">0</div>
+                    </div>
+                </div>
+            </div>
+            <div class="academic-calendar" id="academic-calendar">
+                <!-- Calendar Window -->
+                <div class="calendar-contianer">
+                    <div class="calendar">
+                        <div class="calendar-header">
+                            <span class="month-picker" id="month-picker"> May </span>
+                            <div class="year-picker" id="year-picker">
+                                <span class="year-change" id="pre-year">
+                                    <pre></pre>
+                                </span>
+                                <span id="year">2020 </span>
+                                <span class="year-change" id="next-year">
+                                    <pre>></pre>
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="calendar-body">
+                            <div class="calendar-week-days">
+                                <div>Sun</div>
+                                <div>Mon</div>
+                                <div>Tue</div>
+                                <div>Wed</div>
+                                <div>Thu</div>
+                                <div>Fri</div>
+                                <div>Sat</div>
+                            </div>
+                            <div class="calendar-days">
+                            </div>
+                        </div>
+                        <!-- <div class="calendar-footer">
+            </div> -->
+                        <div class="date-time-formate">
+                            <div class="day-text-formate">TODAY</div>
+                            <div class="date-time-value">
+                                <div class="time-formate">Time</div>
+                                <div class="date-formate">Date</div>
+                            </div>
+                        </div>
+
+
+                        <div class="holiday-formate-div">
+                            <div class="holiday-formate-label-div">HOLIDAY</div>
+                            <div class="holiday-value-div">
+                                <div class="holiday-value-label">
+                                    <ul id="holidays-downof-calendar">
+                                        <li>No Holidays!</li>
+
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="month-list"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    <div class="vertical-line-after-nav"></div>
+
+    <!-- Add New Student -->
+    <div class="addStudentDiv" id="addStudentDiv">
+        <label for="stu-id-inp">Student ID</label>
+        <input class="newStuData" type="text" id="stu-id-inp">
+        <br>
+        <label for="stu-name-inp">Student Name</label>
+        <input class="newStuData" type="text" id="stu-name-inp">
+        <br>
+        <label for="stu-phone-inp">Mobile Number</label>
+        <input class="newStuData" type="text" id="stu-phone-inp">
+        <br>
+        <label for="stu-fatherPhone-inp">Fathes's Mobile Number</label>
+        <input class="newStuData" type="text" id="stu-fatherPhone-inp">
+        <br>
+        <label for="stu-email-inp">Email</label>
+        <input class="newStuData" type="email" id="stu-email-inp">
+        <br>
+        <label for="stu-Adhaar-inp">Adhaar Number</label>
+        <input class="newStuData" type="text" id="stu-Adhaar-inp">
+        <br>
+        <label for="stu-Hostel-inp">Hostel Name</label>
+        <input class="newStuData" type="text" id="stu-Hostel-inp">
+        <br>
+        <label for="stu-Room-inp">Room Number</label>
+        <input class="newStuData" type="text" id="stu-Room-inp">
+        <button id="AddStudentBtn" onclick="AddNewStudent()">Add Student</button>
+    </div>
+
+    <!-- Update Existing Student -->
+    <div class="updateStudentDiv" id="updatestudent-div">
+        <div class="header">
+            Update Student Details
+        </div>
+        <div class="content-container">
+            <div class="grid">
+                <div class="field">
+                    <label class="pd-container">Student ID</label>
+                    <input class="inp" id="Student_ID" type="text">
+                </div>
+                <div class="field">
+                    <label class="pd-container">Name</label>
+                    <input class="inp" id="Name" type="text">
+                </div>
+                <div class="field">
+                    <label class="pd-container">Gender</label>
+                    <select class="inp" name="Gender" id="Gender">
+                        <option value="" hidden>Select</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Other">Other</option>
+                    </select>
+                </div>
+                <div class="field">
+                    <label class="pd-container">Fathers Name</label>
+                    <input class="inp" id="Fathers_Name" type="text">
+                </div>
+                <div class="field">
+                    <label class="pd-container">Mothers Name</label>
+                    <input class="inp" id="Mothers_Name" type="text">
+                </div>
+                <div class="field">
+                    <label class="pd-container">Mobile Number</label>
+                    <input class="inp" id="Student_Mobile_Number" type="text">
+                </div>
+                <div class="field">
+                    <label class="pd-container">Fathers Mobile Number</label>
+                    <input class="inp" id="Fathers_Mobile_Number" type="text">
+                </div>
+                <div class="field">
+                    <label class="pd-container">Email ID</label>
+                    <input class="inp" id="Email" type="text">
+                </div>
+                <div class="field">
+                    <label class="pd-container">Adhaar ID</label>
+                    <input class="inp" id="Adhaar" type="text">
+                </div>
+                <div class="field">
+                    <label class="pd-container">Date Of Birth</label>
+                    <input class="inp" id="DOB" type="date">
+                </div>
+                <div class="field">
+                    <label class="pd-container">DOJ Hostel joining Date</label>
+                    <input class="inp" id="Date_of_Joining" type="date" >
+                </div>
+                <div class="field">
+                    <label class="pd-container">Course</label>
+                    <input class="inp" id="Course" type="text">
+                </div>
+                <div class="field">
+                    <label class="pd-container">Year</label>
+                    <select class="inp" id="Year" type="text">
+                        <option value="" hidden>Select</option>
+                        <option value="I">I</option>
+                        <option value="II">II</option>
+                        <option value="III">III</option>
+                        <option value="IV">IV</option>
+                        <option value="V">V</option>
+                    </select>
+                </div>
+                <div class="field">
+                    <label class="pd-container">Hostel</label>
+                    <select class="inp" name="Hostel" id="Hostel">
+                        <option value="" hidden>Select</option>
+                        <option value="Himgiri">Himgiri</option>
+                        <option value="Nilgiri">Nilgiri</option>
+                        <option value="Shivalik">Shivalik</option>
+                        <option value="Himalaya">Himalaya</option>
+                        <option value="Aravali">Aravali</option>
+                        <option value="Bhagirathi">Bhagirathi</option>
+                        <option value="Godwari">Godwari</option>
+                        <option value="Narmada">Narmada</option>
+                        <option value="Kaveri">Kaveri</option>
+                    </select>
+                    <!-- <input class="inp" id="Hostel" type="text"> -->
+                </div>
+                <div class="field">
+                    <label class="pd-container">Room Number</label>
+                    <input class="inp" id="Room_Number" type="text">
+                </div>
+                <div class="field">
+                    <label class="pd-container">Room type</label>
+                    <input class="inp" id="Room_Type" type="text">
+                </div>
+                <div class="field">
+                    <label class="pd-container">Country</label>
+                    <!-- <input class="inp" id="Country" type="text"> -->
+                    <select class="inp" name="Country" id="Country" onchange="setState()">
+                        <option value="" hidden>Select</option>
+                    </select>
+                </div>
+                <div class="field">
+                    <label class="pd_container">State</label>
+                    <select name="State" id="State" class="inp">
+                        <option value="" hidden>Select</option>
+                    </select>
+                </div>
+                <div class="field">
+                    <label class="pd-container">City</label>
+                    <input class="inp" id="City" type="text">
+                </div>
+                <div class="field">
+                    <label class="pd-container">Postal_Code</label>
+                    <input class="inp" id="Postal_Code" type="text">
+                </div>
+                <div class="field">
+                    <label class="pd-container">Address</label>
+                    <input class="inp" id="Address" type="text">
+                </div>
+                <div class="field">
+                    <label class="pd-container">Warden</label>
+                    <select class="inp" id="Warden" type="text">
+                        <option value="" hidden>Select</option>
+                        <option value="Abhishek">Abhishek</option>
+                        <option value="Kedar">Kedar</option>
+                    </select>
+                </div>
+            </div>
+            <button id="Save" onclick="updateStudentData()">Update Data</button>
+        </div>
+    </div>
+
+    <!--  start attendancs summary -->
+    <div class="sum_container" id="sum_container">
+        <div class="summ_header">
+            <h2>Attendance Summary</h2>
+        </div>
+
+        <div class="s_date-filter">
+            <label for="fromDate">From Date</label>
+            <input type="date" id="fromDate">
+        </div>
+
+        <div class="s_date-filter">
+            <label for="toDate">To Date</label>
+            <input type="date" id="toDate">
+        </div>
+
+        <!-- 🔍 Search Field for Student ID -->
+        <div class="sum_search-filter">
+            <label for="searchStudent">Find by Student ID</label>
+            <input type="text" id="searchStudent" placeholder="Enter Student ID">
+        </div>
+
+        <button class="sum_show-btn" onclick="filterAttendance()">Show</button>
+
+        <div class="summary_table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Sr.No</th>
+                        <th>Student Id</th>
+                        <th>Room No</th>
+                        <th>Days</th>
+                        <th>Time</th>
+                        <th>Attendance</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody id="attendanceTable">
+                    <!-- Attendance data will be inserted dynamically -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!--  end attendancs summary -->
+
+
+    <!-- Start Student's Complaints window -->
+
+    <div class="complain" id="complain">
+        <div class="complain_warden">
+            <h2>Student's Complaints Details</h2>
+        </div>
+
+        <div class="table-complaint">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Date Of Complaint</th>
+                        <th>Student Id</th>
+                        <th>Complaint Types</th>
+                        <th>Warden</th>
+                        <th>Complaint Description </th>
+                        <th>View</th>
+                    </tr>
+
+                </thead>
+                <tbody id="complaint_Table">
+
+                    <!-- Data will be inserted dynamically using JavaScript -->
+                </tbody>
+            </table>
+        </div>
+
+
+    </div>
+
+    <!-- End Student's Complaints window -->
+
+
+    <!-- hostel -->
+    <div class="ManageHostelDiv" id="ManageHostelDiv">
+        <h2 class="hh">Student Room Allocation</h2>
+
+        <form id="roomAllocationForm">
+            <label for="wardenId">Student ID:</label>
+            <input type="text" id="wardenId" placeholder="Enter Student ID" required>
+
+            <label for="wardenName">Student Name:</label>
+            <input type="text" id="wardenName" placeholder="Enter Student Name" required>
+
+            <label for="hostelName">Hostel Name:</label>
+            <select id="hostelName" required>
+                <option value="">Select Hostel</option>
+                <option value="Hostel A">Hostel A</option>
+                <option value="Hostel B">Hostel B</option>
+                <option value="Hostel C">Hostel C</option>
+            </select>
+
+            <label for="hostelFloor">Hostel Floor:</label>
+            <select id="hostelFloor" required>
+                <option value="">Select Floor</option>
+                <option value="Ground Floor"> ground Floor</option>
+
+                <option value="1st Floor">1st Floor</option>
+                <option value="2nd Floor">2nd Floor</option>
+                <option value="3rd Floor">3rd Floor</option>
+            </select>
+
+            <label for="roomType">Room Type:</label>
+            <select id="roomType" required>
+                <option value="">Select Room Type</option>
+                <option value="Single Seater">Single Seater</option>
+                <option value="Double Seater">Double Seater</option>
+                <option value="Triple Seater">Triple Seater</option>
+                <option value="Four Seater">Four Seater</option>
+                <option value="Double Seater">Double Seater</option>
+
+            </select>
+
+            <label for="roomAC">AC / Non-AC:</label>
+            <select id="roomAC" required>
+                <option value="">Select Room Type</option>
+                <option value="AC">AC</option>
+                <option value="Non-AC">Non-AC</option>
+            </select>
+
+            <label for="roomNumber">Room Number:</label>
+            <select id="roomNumber" required>
+                <option value="">Select Room Number</option>
+            </select>
+
+            <button type="submit">Allocate Room</button>
+        </form>
+
+        <div class="hostel_container">
+            <h3>Allocated Rooms</h3>
+            <table class="ht">
+                <thead>
+                    <tr>
+                        <th class="sh">Student ID</th>
+                        <th class="sh">Student Name</th>
+                        <th class="sh">Hostel Name</th>
+                        <th class="sh">Hostel Floor</th>
+                        <th class="sh">Room Type</th>
+                        <th class="sh">AC / Non-AC</th>
+                        <th class="sh">Room Number</th>
+                    </tr>
+                </thead>
+                <tbody id="roomTableBody">
+                    <!-- Allocated rooms will be displayed dynamically -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div id="pop-up" class="pop-up hidden">
+        <h1 id="pop-up-msg">Message</h1><br>
+        <input type="text" class="entry" id="pop-entry">
+        <button id="backButton">Click</button>
+    </div>
+
+
+</body>
+
+</html>
