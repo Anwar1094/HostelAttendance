@@ -23,6 +23,14 @@ const bcrypt = require('bcrypt')
 const app = express();
 const port = process.env.PORT || 3000;
 
+// Server sends config as JSON
+app.get('/config', (req, res) => {
+    res.json({
+        HOST: process.env.HOST,
+        PyHost: process.env.PyHOST,
+    });
+});
+
 
 // Set up multer for file uploads
 const storage = multer.memoryStorage();
@@ -30,7 +38,7 @@ const upload = multer({ storage });
 
 // By-passing data transfer policy of browser
 app.use(cors({
-    origin: "http://127.0.0.1:5502",  // **Frontend URL (no '*')**
+    origin: [process.env.HOST, process.env.PyHOST, process.env.Site],
     credentials: true,
 }))
 app.use(cookieParser());
@@ -46,7 +54,7 @@ app.use(express.json()) // Json middleware to jsonify respose
 // });
 
 
-const SECRET_KEY = "admin$9451@HostelAttendance";
+const SECRET_KEY = process.env.SECRET_KEY;
 /* ---------------------------Student Page--------------------------- */
 
 /* .......................Sign-in Window....................... */
@@ -137,10 +145,10 @@ const transporter = nodemailer.createTransport({
 var otp;
 var uId;
 
-app.post('/setuser', (req, res)=>{
+app.post('/setuser', (req, res) => {
     const user = req.body.user;
     uId = user;
-    return res.status(200).json({"success": true})
+    return res.status(200).json({ "success": true })
 })
 
 /* .......................Sending OTP....................... */
@@ -229,7 +237,7 @@ app.post('/signin', (req, res) => {
             bcrypt.compare(pswrd, Password, (err, results) => {
                 if (results) {
                     uId = uid
-                    
+
                     console.log(results)
                     // SECRET_KEY = `${uId}$${Password}@login`;
                     const token = jwt.sign({ userId: uid }, SECRET_KEY, { expiresIn: "1h" });
@@ -273,16 +281,16 @@ app.post('/change_pswrd', (req, res) => {
     console.log(req.body)
     const { password } = req.body
     if (/[a-z]/.test(password) == false) {
-        return res.status(500).json({'Msg': 'Password must contain Alphabets!'}) 
+        return res.status(500).json({ 'Msg': 'Password must contain Alphabets!' })
     } else if (/[0-9]/.test(password) == false) {
-        return res.status(500).json({'Msg': 'Password must contain Numbers!'}) 
+        return res.status(500).json({ 'Msg': 'Password must contain Numbers!' })
     } else if (/[A-Z]/.test(password) == false) {
-        return res.status(500).json({'Msg': 'Password must contain Capital Letter!'}) 
+        return res.status(500).json({ 'Msg': 'Password must contain Capital Letter!' })
     } else if (/[\W_]/.test(password) == false) {
-        return res.status(500).json({'Msg': 'Password must contain Speical Characters!'}) 
-    } else if ((password.length >= 8) ==false) {
-        return res.status(500).json({'Msg': 'Password length must be 8!'}) 
-    } 
+        return res.status(500).json({ 'Msg': 'Password must contain Speical Characters!' })
+    } else if ((password.length >= 8) == false) {
+        return res.status(500).json({ 'Msg': 'Password length must be 8!' })
+    }
     bcrypt.hash(password, 10, (err, hashedPassword) => {
         // const encodedPswrd = btoa(password);
         let sqlQuery = `update StudentsData set Password='${hashedPassword}' where Student_ID = '${uId}';`
@@ -420,34 +428,34 @@ app.post('/changeStudentpassword', (req, res) => {
 });
 
 /* .......................Upload Profile....................... */
-app.post('/uploadProfile', upload.single('file'), async (req, res)=>{
+app.post('/uploadProfile', upload.single('file'), async (req, res) => {
     console.log(uId)
     const fileData = req.file
     if (fileData) {
         const { originalname, buffer } = req.file;
-        pool.query(`UPDATE StudentsData SET Profile=? WHERE Student_ID='${uId}';`, [buffer], (err, results)=>{
-            if (err){
+        pool.query(`UPDATE StudentsData SET Profile=? WHERE Student_ID='${uId}';`, [buffer], (err, results) => {
+            if (err) {
                 console.log(err)
-                return res.status(500).json({'fail': true})
+                return res.status(500).json({ 'fail': true })
             }
-            return res.status(200).json({'success': true})
+            return res.status(200).json({ 'success': true })
         })
     }
 })
 
-app.get('/setProfile', (req, res)=>{
-    pool.query(`SELECT Profile from StudentsData Where Student_ID=?`, [uId], (err, results)=>{
+app.get('/setProfile', (req, res) => {
+    pool.query(`SELECT Profile from StudentsData Where Student_ID=?`, [uId], (err, results) => {
         if (err) {
             console.log(err)
             return res.status(500).send('DB Error')
         }
-        try{
+        try {
             res.set('Content-Type', 'image/png');
             return res.status(200).send(results[0]['Profile'])
         } catch {
             return res.status(500).send('Server Error')
         }
-        })
+    })
 })
 
 // app.get('/getCountry', (req, res) => {
@@ -525,7 +533,7 @@ var studentId
 app.post('/verifyAttendance', (req, res) => {
     studentId = req.body.Student_Id
     console.log(studentId)
-    return res.status(200).json({'success': true})
+    return res.status(200).json({ 'success': true })
 })
 app.post('/markAttendance', (req, res) => {
     const { Student_ID } = req.body
