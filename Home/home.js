@@ -1,4 +1,4 @@
-const host = 'http://localhost:3001'
+const host = 'https://hostelattendance-backend.onrender.com'
 const Pyhost = 'http://127.0.0.1:5000'
 
 const CountryObj = {
