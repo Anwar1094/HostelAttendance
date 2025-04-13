@@ -1,4 +1,4 @@
-const host = 'http://localhost:3001'
+const host = 'https://hostelattendance-backend.onrender.com'
 
 window.onload = ()=> {
     document.getElementById('signin_div').style.display = 'block';
