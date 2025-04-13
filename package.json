@@ -1,0 +1,12 @@
+{
+  "name": "deployment",
+  "version": "1.0.0",
+  "description": "Testing",
+  "main": "script.js",
+  "scripts": {
+    "test": "node",
+    "start": "node server.js"
+  },
+  "author": "",
+  "license": "ISC"
+}
