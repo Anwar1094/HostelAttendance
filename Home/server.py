@@ -87,12 +87,6 @@ for data in mycursor.fetchall():
     cropped = mtcnn(rgb_image)
     if cropped is not None:
         all_people_faces[data[1]] = encode(cropped)[0, :]
-    # cv2.imwrite('img.jpg', rgb_image)
-# for user in os.listdir(saved_pictures):
-#     final_path = os.path.join(saved_pictures, user)
-#     for file in os.listdir(final_path):
-#         person_face, extension = file.split(".")
-#         img = cv2.imread(f'{final_path}/{person_face}.jpg')
 
 print(all_people_faces.keys())   
 # Route to receive image and perform face recognition
@@ -104,8 +98,6 @@ def recognize_face():
         # Get image from request
         data = request.get_json()
 
-        # print(request.data)
-        # data['imageDataUrl']
         image_data = data['imageDataUrl']
 
     #     # Remove the 'data:image/jpeg;base64,' part
@@ -115,13 +107,6 @@ def recognize_face():
         img_data = base64.b64decode(image_data)
         image = np.asarray(bytearray(img_data), dtype=np.uint8)
         img = cv2.imdecode(image, cv2.IMREAD_COLOR)
-
-    #     # Convert to RGB for face_recognition
-        # rgb_image = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
-        # cv2.imwrite('img.jpg', rgb_image)
-
-    #     # Detect faces
-        # face_locations = face_recognition.face_locations(rgb_image)
 
         batch_boxes, cropped_images = mtcnn.detect_box(img)
 
@@ -136,15 +121,12 @@ def recognize_face():
 
                 if detect_dict[min_key] >= 0.9:
                     min_key = 'Undetected'
-                    print('Attendance Marked: ', min_key)
-                # print(min_key)
                 
         
     #     # Send the results back
         global stuId
         stuId = min_key
         return jsonify({'stuId': min_key})
-        # return jsonify({"message": "Data received successfully!"}), 200
 
     except Exception as e:
         print(e)
@@ -158,11 +140,6 @@ def verify():
         requests.post(url, json={'Student_Id': stuId})
         return jsonify({'success': True}), 200
     return jsonify({'err': 'Unauthorized'}), 500
-# @app.route('/read-cookies')
-# def read_cookies():
-#     cookies = request.cookies  # Access cookies
-#     print(cookies)
-#     return cookies
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=getenv('PyPORT'))
