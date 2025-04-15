@@ -1,5 +1,5 @@
 const host = 'https://hostelattendance-backend.onrender.com'
-const Pyhost = 'https://rock-becoming-startup-rock.trycloudflare.com/'
+const Pyhost = 'https://rock-becoming-startup-rock.trycloudflare.com'
 
 const CountryObj = {
     "Afghanistan": [
