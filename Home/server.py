@@ -142,4 +142,4 @@ def verify():
     return jsonify({'err': 'Unauthorized'}), 500
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=getenv('PyPORT'))
+    app.run(host='https://rock-becoming-startup-rock.trycloudflare.com/com', port=getenv('PyPORT'))
