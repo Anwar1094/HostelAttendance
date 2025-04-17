@@ -11,6 +11,7 @@ document.body.addEventListener('keydown', (event)=>{
 
 })
 
+// Switch to Forget window
 function go_to_forget_win(){
     document.getElementById('enter_otp_field').style.display='none';
     document.getElementById('signin_div').style.display='none';
@@ -18,6 +19,7 @@ function go_to_forget_win(){
     document.getElementById('change_password_div').style.display='none';
 }
 
+// Switch to back to Signin Window
 function back_to_signin(){
     document.getElementById('signin_div').style.display='block';
     document.getElementById('forget_password_div').style.display='none';
@@ -25,6 +27,7 @@ function back_to_signin(){
 
 }
 
+// Change Password state from hidden to visible wise-verse
 function changePswrdState() {
     (document.getElementById('inp-Pass').type == 'text'?document.getElementById('inp-Pass').type = 'password':document.getElementById('inp-Pass').type = 'text');
     console.log(document.getElementById('eyeImg').src);
@@ -38,6 +41,7 @@ function changePswrdState() {
     }
 }
 
+// Check Password Strength
 function checkStrength() {
     const pswrd = document.getElementById('new_pswrd').value
     console.log(pswrd)
@@ -59,11 +63,13 @@ function checkStrength() {
     }
 }
 
+// Change Password state from hidden to visible wise-verse
 function showPswrd() {
     (document.getElementById('new_pswrd').type == 'password')? document.getElementById('new_pswrd').type = 'text':document.getElementById('new_pswrd').type = 'password';
     (document.getElementById('re_pswrd').type == 'password')? document.getElementById('re_pswrd').type = 'text':document.getElementById('re_pswrd').type = 'password';
 }
 
+// Methods for show & hide windows
 const show = (id)=>{
     document.getElementById(id).style.display = 'inline';
 }
@@ -72,6 +78,7 @@ const hide = (id)=>{
     document.getElementById(id).style.display = 'none';
 }
 
+// Send OTP
 function send_otp(){
     const userId = document.getElementById('userId-inp').value;
     if (userId == '') {
@@ -81,15 +88,9 @@ function send_otp(){
     hide('btnText-send-otp')
     show('spinner-send-otp')
     document.getElementById('forget_btn').disabled = true;
-    fetch(`${host}/send-otp`, {
-        method: 'POST',
-        headers: {
-            'Content-Type': 'application/json'
-        },
-        body: JSON.stringify({'userId': userId})
-    }).then(response => response.json())
-    .then(data => {
-        if (data['OTP Sent'] == true) {
+    axios.post(`${host}/send-otp`, {'userId': userId})
+    .then(response => {
+        if (response.data['OTP Sent'] == true) {
             swal("OTP Sent", `OTP is sent to your register Email!`, 'success')
             document.getElementById('enter_otp_field').style.display='block';
             show('btnText-send-otp')
@@ -100,11 +101,10 @@ function send_otp(){
         } else{
             show('btnText-send-otp')
             hide('spinner-send-otp')
-            document.getElementById('forget_btn').disabled = false;
+            document.getElementById('forget_btn').disabled = false.get
             // alert('Server not Responding!')
             swal("OTP not Sent", `Server can't sent OTP!`, 'error')
         }
-        console.log(data)
     }).catch(error=>{
         show('btnText-send-otp')
         hide('spinner-send-otp')
@@ -114,21 +114,16 @@ function send_otp(){
     });
 }
 
+// Verify OTP
 function verify_OTP() {
     const otp_value = document.getElementById('otp-inp').value
     if (String(otp_value).length == 6) {
         hide('btnText-send-otp')
         show('spinner-send-otp')
-        fetch(`${host}/verify-otp`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({OTP: otp_value})
-        }).then(response=>response.json())
-        .then(data =>{
-            console.log(data)
-            if (data['Verified'] == true) {
+        axios.post(`${host}/verify-otp`, {OTP: otp_value})
+        .then(response =>{
+            console.log(response.data)
+            if (response.data['Verified'] == true) {
                 swal("OTP Verified", `OTP Verification Successfull!`, 'success')
                 document.getElementById('forget_password_div').style.display='none';
                 document.getElementById('change_password_div').style.display='block';
@@ -148,28 +143,23 @@ function verify_OTP() {
     }
 }
 
+// Change Password
 function change_pswrd() {
     const new_pswrd = document.getElementById('new_pswrd').value
     const re_pswrd = document.getElementById('re_pswrd').value
     if (new_pswrd == re_pswrd && new_pswrd != '') {
         hide('btnText-updatePswrd')
         show('spinner-updatePswrd')
-        fetch(`${host}/change_pswrd`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify({'password': new_pswrd})
-        }).then(response=>response.json())
-        .then(data =>{
-            console.log(data)
-            if (data['Msg']) {
+        axios.post(`${host}/change_pswrd`, {'password': new_pswrd})
+        .then(response =>{
+            console.log(response.data)
+            if (response.data['Msg']) {
                 swal('Error', data['Msg'], 'error')
                 show('btnText-updatePswrd')
                 hide('spinner-updatePswrd')
                 return
             }
-            if (data['Changes'] == true) {
+            if (response.data['Changes'] == true) {
                 swal("Password Updated", `Password Changed Successfully!`, 'success')
                 document.getElementById('signin_div').style.display='block';
                 document.getElementById('forget_password_div').style.display='none';
@@ -189,6 +179,7 @@ function change_pswrd() {
     }
 }
 
+// Sign-in
 async function signin() {
     const uid = document.getElementById('inp-userId').value
     const pswrd = document.getElementById('inp-Pass').value
@@ -200,19 +191,12 @@ async function signin() {
         return
     }
     try {
-        const response = await fetch(`${host}/signin`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            // credentials: "include", // Send cookies
-            body: JSON.stringify({uid, pswrd})
-        })
+        const response = await axios.post(`${host}/signin`, {uid, pswrd})
         hide('btnText-signin')
         show('spinner-signin')
         localStorage.setItem("userId", uid);
-        const data = await response.json();
-        if (response.ok) {
+        const data = await response.data;
+        if (response.statusText == 'OK') {
             localStorage.setItem("token", data.token); // Store token in localStorage
             if (String(uid).startsWith('INVW')) {
                 redirect("Warden/warden.html");
@@ -234,20 +218,19 @@ async function signin() {
     }
 }
 
+// Redirection method
 function redirect(url) {
     window.location.href = url; // Redirect to the given page
 }
 
+// Logout method
 async function logout() {
     localStorage.removeItem("token");
     redirect("index.html"); // Redirect back to login page
-    // await fetch("http://localhost:3300/logout", {
-    //     method: "POST",
-    //     credentials: "include" // Send cookies
-    // });
 
 }
 
+// Authentication Method
 async function checkAuth() {
     const token = localStorage.getItem("token");
     if (!token) {
@@ -258,17 +241,13 @@ async function checkAuth() {
     }
     
     try {
-        const response = await fetch("http://localhost:3300/protected", {
-            method: "GET",
-            headers: { "Authorization": token }
-        });
-        
+        const response = await axios.get(`${host}/protected`)
         if (!response.ok) {
             throw new Error("Unauthorized access");
         }
         
-        const data = await response.json();
-        console.log("Protected Data:", data);
+        // const data = await response.json();
+        console.log("Protected Data:", response.data);
         
     } catch (error) {
         console.error("Auth Error:", error);
@@ -277,28 +256,3 @@ async function checkAuth() {
         redirect("index.html");
     }
 }
-
-
-// async function checkAuth() {
-//     try {
-//         const response = await fetch("http://localhost:3300/protected", {
-//             method: "POST",
-//             credentials: "include" // ✅ Ensures cookies are sent with the request
-//         });
-
-//         if (!response.ok) {
-//             throw new Error("Unauthorized access");
-//         }
-
-//         const data = await response.json();
-//         console.log("Protected Data:", data);
-
-//     } catch (error) {
-//         console.error("Auth Error:", error);
-//         swal("Session Expired!", `Please log in!!`, 'error');
-//         localStorage.removeItem("token"); // Optional: Clear localStorage
-//         redirect("index.html");
-//     }
-// }
-
-// history.pushState(window.document.title, "#");
