@@ -872,7 +872,7 @@ const upload = multer({ storage });
 
 // By-passing data transfer policy of browser
 app.use(cors({
-    origin: "http://127.0.0.1:5502",  // **Frontend URL (no '*')**
+    origin: [process.env.HOST, process.env.PyHOST, process.env.Site],
     credentials: true,
 }))
 app.use(cookieParser());
