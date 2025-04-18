@@ -859,6 +859,9 @@ const CountryObj = {
         "Matabeleland North", "Matabeleland South", "Midlands"
     ]
 }
+// Read private and public keys
+// const PRIVATE_KEY = fs.readFileSync(path.join(__dirname, "private.pem"), "utf8");
+// const PUBLIC_KEY = fs.readFileSync(path.join(__dirname, "public.pem"), "utf8");
 
 /* .......................Server Setup.......................*/
 // Creating server & port
@@ -872,15 +875,26 @@ const upload = multer({ storage });
 
 // By-passing data transfer policy of browser
 app.use(cors({
-    origin: [process.env.HOST, process.env.PyHOST, process.env.Site],
+    origin: [process.env.HOST, process.env.Site],
     credentials: true,
 }))
+// console.log('r:', [process.env.HOST, process.env.PyHOST, process.env.Site])
 app.use(cookieParser());
 app.use(express.json({ limit: '50mb' }));
 app.use(express.json()) // Json middleware to jsonify respose
 
+// app.use((req, res, next) => {
+//     res.header("Access-Control-Allow-Origin", req.headers.origin); // Allow specific origin dynamically
+//     res.header("Access-Control-Allow-Credentials", "true");
+//     res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+//     res.header("Access-Control-Allow-Headers", "Content-Type, Authorization");
+//     next();
+// });
+
+
 const SECRET_KEY = "admin$9451@HostelAttendance";
 /* ---------------------------Student Page--------------------------- */
+
 /* .......................Sign-in Window....................... */
 // Mysql Connection
 var pool = createPool({
@@ -906,6 +920,66 @@ const transporter = nodemailer.createTransport({
     },
 });
 
+/**
+ * LOGIN ROUTE - Generates JWT and sets it in HttpOnly Cookie
+ */
+// app.post("/login", (req, res) => {
+//     const { username, password } = req.body;
+
+//     // const user = users.find(u => u.username === username && u.password === password);
+//     // if (!user) {
+//     //     return res.status(401).json({ error: "Invalid credentials" });
+//     // }
+
+//     // Create JWT token
+//     const token = jwt.sign({ userId: username }, PRIVATE_KEY, { algorithm: "RS256", expiresIn: "1h" });
+
+//     // Set HttpOnly Cookie
+//     res.cookie("token", token, {
+//         httpOnly: true,  // Prevents JavaScript access (XSS protection)
+//         secure: false,   // Set to true in production (requires HTTPS)
+//         sameSite: "Strict" // Protects against CSRF attacks
+//         // maxAge: 60 * 60 * 1000 // Cookie expires in 1 hour
+//     });
+
+//     res.json({ message: "Login successful" });
+// });
+
+
+// app.get("/getData", (req, res) => {
+//     res.json({ message: "Data retrieved successfully!" });
+// });
+
+/**
+ * PROTECTED ROUTE - Checks JWT in Cookie
+ */
+// app.post("/protected", (req, res) => {
+//     const authHeader = req.headers.Authorization;
+//     console.log(req)
+//     if (!authHeader) {
+//         return res.status(403).json({ error: "No token provided" });
+//     }
+
+//     const token = authHeader; // Extract token from header
+//     console.log("Received Token:", token);
+
+//     jwt.verify(token, PUBLIC_KEY, { algorithms: ["RS256"] }, (err, decoded) => {
+//         if (err) {
+//             return res.status(401).json({ error: "Invalid token" });
+//         }
+//         res.json({ message: "Access granted!", userId: decoded.userId });
+//     });
+// });
+
+
+/**
+ * LOGOUT ROUTE - Clears JWT Cookie
+ */
+// app.post("/logout", (req, res) => {
+//     res.clearCookie("token"); // Remove JWT cookie
+//     res.json({ message: "Logged out successfully" });
+// });
+
 var otp;
 var uId;
 
@@ -916,6 +990,7 @@ app.post('/setuser', (req, res)=>{
 })
 
 /* .......................Sending OTP....................... */
+
 // API for generating and sending otp
 app.post('/send-otp', (req, res) => {
     const { userId } = req.body;
@@ -953,6 +1028,7 @@ app.post('/send-otp', (req, res) => {
                 // Send the email
                 transporter.sendMail(mailOptions, (error, info) => {
                     if (error) {
+                        // console.log('Error occurred:', error);
                         return res.status(500).send({ 'OTP Sent': false })
                     } else {
                         console.log('Email sent:', info.response);
@@ -970,7 +1046,10 @@ app.post('/send-otp', (req, res) => {
 /* .......................Verifiying OTP....................... */
 app.post('/verify-otp', (req, res) => {
     const { OTP } = req.body
+    // return res.status(200).json({'msg':'OTP Verified', 'Verified': true})
+    // console.log(otp, OTP)
     if (OTP == otp) {
+        // console.log(otp, OTP)
         console.log('OTP Verified')
         return res.status(200).send({ 'Verified': true })
     }
@@ -998,6 +1077,7 @@ app.post('/signin', (req, res) => {
                     uId = uid
                     
                     console.log(results)
+                    // SECRET_KEY = `${uId}$${Password}@login`;
                     const token = jwt.sign({ userId: uid }, SECRET_KEY, { expiresIn: "1h" });
                     console.log(token);
                     return res.status(200).json({ token });
@@ -1050,6 +1130,7 @@ app.post('/change_pswrd', (req, res) => {
         return res.status(500).json({'Msg': 'Password length must be 8!'}) 
     } 
     bcrypt.hash(password, 10, (err, hashedPassword) => {
+        // const encodedPswrd = btoa(password);
         let sqlQuery = `update StudentsData set Password='${hashedPassword}' where Student_ID = '${uId}';`
         if (String(uId).startsWith('INVW')) {
             sqlQuery = `update WardensData set Password='${hashedPassword}' where User_ID = '${uId}';`
@@ -1091,9 +1172,12 @@ app.get("/getData_of_list_of_holidays", (req, res) => {
 /* .......................Fetching Students Data....................... */
 // Student's Personal Details Window
 app.post('/fetch-stu-pd', (req, res) => {
+    // console.log(req.body)
     const { currUserID } = req.body;
+    // console.log(currUserID)
     pool.query(`SELECT * FROM StudentsData where Student_ID='${currUserID}';`, (err, results) => {
         if (err) return res.status(500).json(err)
+        // console.log('Data: ', results)
         return res.status(200).json(results)
     })
 })
@@ -1217,9 +1301,35 @@ app.get('/setProfile', (req, res)=>{
 app.get('/Countries', (req, res) => {
     return res.status(200).json(CountryObj)
 })
+// app.post('/getStates', (req, res) => {
+//     const { country } = req.body
+//     // console.log(country, req.body)
+//     pool.query(`Select states from CountryData where country='${country}';`, (err, result) => {
+//         // console.log(result)
+//         if (err) { return res.status(500).json(err) }
+//         return res.status(200).json(result[0])
+//     })
+// })
 
 // Mark Attendance Window Script
 app.use(bodyParser.json({ limit: '50mb' }));
+
+/* .......................MySQL Connection....................... */
+// const connection = mysql.createConnection({
+//     host: "sql12.freesqldatabase.com" || process.env.DbHOST,
+//     user: "sql12771503" || process.env.DbUSER,
+//     password: "hIYpmm9bkn" || process.env.DbPASSWORD,
+//     database: "sql12771503" || process.env.DB
+// })
+
+// connection.connect((err) => {
+//     if (err) {
+//         console.error('Error connecting to DB:', err)
+//         return;
+//     }
+//     console.log('Connected to the Mysql Database!')
+// })
+
 
 // Middleware to parse JSON
 app.use(bodyParser.json());
@@ -1228,12 +1338,14 @@ app.use(bodyParser.json());
 // Route to save image
 app.post('/save-image', (req, res) => {
     const { imageDataUrl, id } = req.body;
+    // console.log(req.body)
 
     pool.query(`Update StudentsData Set Image='${imageDataUrl}' where Student_ID='${id}';`, (err, results, fields) => {
         if (err) {
             console.error('Error executing query:', err);
             return res.status(500).json({ error: 'Database error', details: err });
         }
+        // console.log('Results:', res.json());
         return res.status(200).json({ 'results': true });
     })
 });
