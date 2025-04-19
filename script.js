@@ -197,7 +197,7 @@ async function signin() {
         show('spinner-signin')
         localStorage.setItem("userId", uid);
         const data = await response.data;
-        if (response.statusText == 'OK') {
+        if (response.status == 200) {
             localStorage.setItem("token", data.token); // Store token in localStorage
             if (String(uid).startsWith('INVW')) {
                 redirect("Warden/warden.html");
