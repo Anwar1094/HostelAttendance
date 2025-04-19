@@ -51,7 +51,7 @@ async function checkAuth() {
 //     // }
 // }
 
-// checkAuth()
+checkAuth()
 function redirect(url) {
     window.location.href = url; // Redirect to the given page
 }
