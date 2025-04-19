@@ -15,7 +15,7 @@ async function checkAuth() {
 
     try {
         const response = await axios.get(`${host}/protected`, { headers: { "Authorization": `${token}` } });
-        if (!response.statusText == 'OK') {
+        if (!response.status == 200) {
             throw new Error("Unauthorized access");
         } else {
             loadWin()
