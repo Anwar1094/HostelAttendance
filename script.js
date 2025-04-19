@@ -227,6 +227,7 @@ function redirect(url) {
 // Logout method
 async function logout() {
     localStorage.removeItem("token");
+    localStorage.removeItem("userId");
     redirect("index.html"); // Redirect back to login page
 
 }
