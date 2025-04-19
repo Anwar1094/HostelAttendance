@@ -192,6 +192,7 @@ async function signin() {
     }
     try {
         const response = await axios.post(`${host}/signin`, {uid, pswrd})
+        console.log(response)
         hide('btnText-signin')
         show('spinner-signin')
         localStorage.setItem("userId", uid);
