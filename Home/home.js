@@ -1,5 +1,5 @@
 const host = 'https://hostelattendance-backend.onrender.com'
-const Pyhost = 'https://agrees-visual-filed-moscow.trycloudflare.com'
+const Pyhost = 'https://ant-narrow-much-tractor.trycloudflare.com'
 
 window.onload = () => checkAuth()
 const $1 = (id) => document.getElementById(id);
