@@ -1,4 +1,4 @@
-const host = 'http://localhost:3000'
+const host = 'https://hostelattendance-backend.onrender.com'
 
 const $ = (id) => document.getElementById(id);
 const toggleDisplay = (id, state) => $(id).style.display = state ? 'block' : 'none';
