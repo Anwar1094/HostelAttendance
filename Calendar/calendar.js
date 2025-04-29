@@ -1,5 +1,5 @@
 let holidaysByYear = []; // 2D array: years → months → holidays
- 
+const host = process.env.HOST 
 // async function fetchData() {
 //     try {
 //         const response = await fetch("http://localhost:3000/getData");
@@ -30,7 +30,7 @@ let holidaysByYear = []; // 2D array: years → months → holidays
 //new code
 async function fetchData() {
     try {
-        const response = await fetch("http://localhost:3000/getData");
+        const response = await fetch(`${host}/getData`);
         const data = await response.json();
         console.log(data)
         data.forEach(({ id, festival, date, month, year, datewithmonth }) => {
