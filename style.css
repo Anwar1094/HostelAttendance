@@ -253,6 +253,9 @@ video {
   padding: 4px;
   transform: scaleX(-1);
 }
+.video {
+  transform: scaleX(1);
+}
 #att-h1 {
   font-size: 28px;
   margin-bottom: 2%;
