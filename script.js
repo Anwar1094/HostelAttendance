@@ -268,7 +268,10 @@ function captureImage() {
         const context = canvas.getContext('2d');
         canvas.width = video.videoWidth;
         canvas.height = video.videoHeight;
-        context.drawImage(video, 0, 0, canvas.width, canvas.height);
+        context.save();
+        context.scale(-1, 1);  // flip horizontally
+        context.drawImage(video, -canvas.width, 0, canvas.width, canvas.height);
+        context.restore();
         const imageDataUrl = canvas.toDataURL('image/png');
         images.push(String(imageDataUrl))
         $('register-face-div').style.height = '500px'
