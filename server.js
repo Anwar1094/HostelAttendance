@@ -1400,6 +1400,7 @@ function getFormattedTimestamp() {
 var studentId
 app.post('/verifyAttendance', (req, res) => {
     studentId = req.body.Student_Id
+    console.log(studentId);
     return res.status(200).json({ success: true })
 })
 app.post('/markAttendance', authMiddleware, async (req, res) => {
