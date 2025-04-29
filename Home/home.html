@@ -1,0 +1,402 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Attendance Navbar</title>
+    <link rel="stylesheet" href="home1.css">
+    <link rel="stylesheet" href="/Calendar/calendar_style.css">
+    <script defer src="home.js"></script>
+    <script defer src="/Calendar/calendar.js"></script>
+    <script defe src="https://cdn.jsdelivr.net/npm/sweetalert2@7.12.15/dist/sweetalert2.all.min.js "></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oranienbaum&display=swap" rel="stylesheet">
+    <!-- CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <!-- JS -->
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+</head>
+<body>
+    <nav class="navbar">
+        <div class="invertis-logo"><img src="../src/invertis logo.jpg" alt="Logo"></div>
+        <div class="hamburger" id="hamburger" onclick="showNavBar">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+        <div class="invertis-logo-media"><img src="../src/invertis logo.jpg" alt="Logo"></div>
+
+        <ul class="nav-links" id="navLinks">
+            <li><a id="Home-nav" class="nav-links-a">HOME</a></li>
+            <li><a id="PersonalDetails-nav" class="nav-links-a">Personal Detail</a></li>
+            <li><a id="MarkAttendance-nav" class="nav-links-a">Mark Attendance</a></li>
+            <li><a id="viewAttendance-nav" class="nav-links-a">View Attendance</a></li>
+            <li><a id="complain-nav" class="nav-links-a">Complain</a></li>
+        </ul>
+
+        <div class="profile" id="profile-nav">
+            <img id="profileImage" src="../src/user.png" alt="Profile">
+            <div class="profile-dropdown" id="profileDropdown">
+                <label id="UserName">My Profile</label>
+                <label for="profileUpload"><a>Upload Profile Picture</a></label>
+                <input type="file" id="profileUpload" accept="image/*" hidden >
+                <a id="changePasswordPopUpBtn" >Change Password</a>
+                <a id="logout-btn">Logout</a>
+                <!-- Change Password Pop-up (Left Side Inside Profile Dropdown) -->
+                <div class="password-popup" id="passwordPopup">
+                    <h3>Change Password</h3>
+                    <span class="close-btn" id="close-btn">&times;</span>
+                    <div id="password-div">
+                        <label for="oldpassword">Old Password:</label>
+                        <input class="dropdownpassword" type="password" id="oldpassword" required>
+                        <label for="newPassword">New Password:</label>
+                        <input class="dropdownpassword" type="password" id="newPassword" required>
+                        <label for="confirmPassword">Re-enter Password:</label>
+                        <input class="dropdownpassword" type="password" id="confirmPassword" required>
+                        <p id="error-message" class="error-message"></p>
+                        <button type="button" id="changePasswordButton">Change
+                            Password</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="main-body-div" id="main-body-div">
+        <div class="slideshow">
+            <div class="student-details-div" id="student-details-div">
+                <div class="student-details-nav-div">
+                    <img id="student-details-div-profileImage" src="../src/user.png" alt="Profile">
+
+                    <label id="student-details-div-name-labels">Student Name</label>
+                    <label id="student-details-div-studentid-labels">Student Id</label>
+
+                </div>
+                <div class="vertical-line"></div>
+                <label class="hostel-and-room-label" id="hostel-and-room-label">HOSTEL - ROOM NUMBER</label>
+                <div class="attendance-visulization-div">
+                    <label class="attendance-visulization-totalattendance-label">Total attendance</label>
+                    <div class="value-bar-container" id="value-bar-totalattendance-container">
+                        <div class="value-bar" id="progressBar-totalattendance">0%</div>
+                    </div>
+
+                    <label class="attendance-visulization-totalpresent-label">Total Present</label>
+                    <div class="value-bar-container" id="value-bar-totalpresent-container">
+                        <div class="value-bar" id="progressBar-totalpresent">0%</div>
+                    </div>
+
+                    <label class="attendance-visulization-totalabsent-label">Total Absent</label>
+                    <div class="value-bar-container" id="value-bar-totalabsent-container">
+                        <div class="value-bar" id="progressBar-totalabsent">0%</div>
+                    </div>
+                </div>
+            </div>
+            <!-- Calendar Window -->
+            <div class="calendar-contianer">
+                <div class="calendar">
+                    <div class="calendar-header">
+                        <span class="month-picker" id="month-picker"> May </span>
+                        <div class="year-picker" id="year-picker">
+                            <span class="year-change" id="pre-year">
+                                <pre><</pre>
+                            </span>
+                            <span id="year"> 2020 </span>
+                            <span class="year-change" id="next-year">
+                                <pre>></pre>
+                            </span>
+                        </div>
+                    </div>
+
+                    <div class="calendar-body">
+                        <div class="calendar-week-days">
+                            <div>Sun</div>
+                            <div>Mon</div>
+                            <div>Tue</div>
+                            <div>Wed</div>
+                            <div>Thu</div>
+                            <div>Fri</div>
+                            <div>Sat</div>
+                        </div>
+                        <div class="calendar-days">
+                        </div>
+                    </div>
+                    <!-- <div class="calendar-footer">
+            </div> -->
+                    <div class="date-time-formate">
+                        <div class="day-text-formate">TODAY</div>
+                        <div class="date-time-value">
+                            <div class="time-formate">02:51:20</div>
+                            <div class="date-formate">23 - july - 2022</div>
+                        </div>
+                    </div>
+
+
+                    <div class="holiday-formate-div">
+                        <div class="holiday-formate-label-div">HOLIDAY</div>
+                        <div class="holiday-value-div">
+                            <div class="holiday-value-label">
+                                <ul id="holidays-downof-calendar">
+                                    <li>No Holidays!</li>
+
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+
+
+                    <div class="month-list"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+    <!-- <div class="vertical-line-after-nav"></div> -->
+
+    <div class="Personal-Details-Div" id="pd-div">
+        <div class="header">
+            Personal Details
+        </div>
+        <div class="content-container">
+            <small id="note">All Fields are Required</small>
+            <div class="grid">
+                <div class="field">
+                    <label for="Student_ID" class="pd-container">Student ID</label>
+                    <input class="inp" id="Student_ID" type="text">
+                </div>
+                <div class="field">
+                    <label for="Name" class="pd-container">Name</label>
+                    <input class="inp" id="Name" type="text">
+                </div>
+                <div class="field">
+                    <label for="Gender" class="pd-container">Gender</label>
+                    <select class="inp" name="Gender" id="Gender">
+                        <option value="" hidden>Select</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                        <option value="Other">Other</option>
+                    </select>
+                    <!-- <input class="inp" id="Gender" type="text" > -->
+                </div>
+                <div class="field">
+                    <label for="Fathers_Name" class="pd-container">Fathers Name</label>
+                    <input class="inp" id="Fathers_Name" type="text">
+                </div>
+                <div class="field">
+                    <label for="Mothers_Name" class="pd-container">Mothers Name</label>
+                    <input class="inp" id="Mothers_Name" type="text">
+                </div>
+                <div class="field">
+                    <label for="Student_Mobile_Number" class="pd-container">Mobile Number</label>
+                    <input class="inp" id="Student_Mobile_Number" type="text">
+                </div>
+                <div class="field">
+                    <label for="Fathers_Mobile_Number" class="pd-container">Fathers Mobile Number</label>
+                    <input class="inp" id="Fathers_Mobile_Number" type="text">
+                </div>
+                <div class="field">
+                    <label for="Email" class="pd-container">Email ID</label>
+                    <input class="inp" id="Email" type="text">
+                </div>
+                <div class="field">
+                    <label for="Adhaar" class="pd-container">Adhaar ID</label>
+                    <input class="inp" id="Adhaar" type="text">
+                </div>
+                <div class="field">
+                    <label class="pd-container" for="DOB">Date Of Birth</label>
+                    <input class="inp" id="DOB" type="date" min="1900-01-01" max="TODAY" onclick="showPicker()">
+                </div>
+                <div class="field">
+                    <label class="pd-container" for="Date_of_Joining">Date Of Joining</label>
+                    <input class="inp" id="Date_of_Joining" type="date" min="1900-01-01" max="TODAY"
+                        onclick="showPicker()">
+                </div>
+                <div class="field">
+                    <label for="Course" class="pd-container">Course</label>
+                    <input class="inp" id="Course" type="text">
+                </div>
+                <div class="field">
+                    <label for="Year" class="pd-container">Year</label>
+                    <select class="inp" id="Year" type="text">
+                        <option value="" hidden>Select</option>
+                        <option value="I">I</option>
+                        <option value="II">II</option>
+                        <option value="III">III</option>
+                        <option value="IV">IV</option>
+                        <option value="V">V</option>
+                    </select>
+                </div>
+                <div class="field">
+                    <label for="Hostel" class="pd-container">Hostel</label>
+                    <select class="inp" name="Hostel" id="Hostel">
+                        <option value="" hidden>Select</option>
+                        <option value="Himgiri">Himgiri</option>
+                        <option value="Nilgiri">Nilgiri</option>
+                        <option value="Shivalik">Shivalik</option>
+                        <option value="Himalaya">Himalaya</option>
+                        <option value="Aravali">Aravali</option>
+                        <option value="Bhagirathi">Bhagirathi</option>
+                        <option value="Godwari">Godwari</option>
+                        <option value="Narmada">Narmada</option>
+                        <option value="Kaveri">Kaveri</option>
+                    </select>
+                    <!-- <input class="inp" id="Hostel" type="text"> -->
+                </div>
+                <div class="field">
+                    <label for="Room_Number" class="pd-container">Room Number</label>
+                    <input class="inp" id="Room_Number" type="text">
+                </div>
+                <div class="field">
+                    <label for="Room_Type" class="pd-container">Room type</label>
+                    <input class="inp" id="Room_Type" type="text">
+                </div>
+                <div class="field">
+                    <label for="Country" class="pd-container">Country</label>
+                    <!-- <input class="inp" id="Country" type="text"> -->
+                    <select class="inp" name="Country" id="Country" >
+                        <option value="" hidden>Select</option>
+                    </select>
+                </div>
+                <div class="field">
+                    <label for="State" class="pd_container">State</label>
+                    <select name="State" id="State" class="inp">
+                        <option value="" hidden>Select</option>
+                    </select>
+                </div>
+                <div class="field">
+                    <label for="City" class="pd-container">City</label>
+                    <input class="inp" id="City" type="text">
+                </div>
+                <div class="field">
+                    <label for="Postal_Code" class="pd-container">Postal_Code</label>
+                    <input class="inp" id="Postal_Code" type="text">
+                </div>
+                <div class="field">
+                    <label for="Address" class="pd-container">Address</label>
+                    <input class="inp" id="Address" type="text">
+                </div>
+                <div class="field">
+                    <label for="Warden" class="pd-container">Warden</label>
+                    <select class="inp" id="Warden" type="text">
+                        <option value="" hidden>Select</option>
+                        <option value="Abhishek">Abhishek</option>
+                        <option value="Kedar">Kedar</option>
+                    </select>
+                </div>
+            </div>
+            <button id="Save">Save Data</button>
+        </div>
+    </div>
+    <!-- Mark Attendance Window -->
+    <div class="markAttendance" id="mark-attendance-div">
+        <h1 id="att-h1">Marking Your Attendance...</h1>
+        <div class="scanner" id="scanner">
+            <div class="scan-line" id="scan-line"></div>
+            <video id="video" autoplay></video>
+            <br>
+        </div>
+
+        <div class="innerDiv" style="display: flex;">
+
+            <div id="entry">
+                <label for="id-inp" id="stuID-lbl">Student ID</label><br>
+                <label for="id-inp" id="stuID"></label>
+            </div>
+
+        </div>
+        <button onclick="submitAttendance()" id="submitAttendance" disabled>
+            <span id='btnText-captureImage' class="btnText">Mark Attendance</span>
+            <span id="spinner-captureImage" class="spinner"></span>
+        </button>
+    </div>
+
+    <!-- View Attendance Window -->
+    <div class="view-atten-container" id="viewAttendance">
+        <div class="view-atten-header">
+            <h1>View Attendance</h1>
+        </div>
+        <div class="form-group slide-in">
+            <label for="fromDate">From Date</label>
+            <input type="date" min="1900-01-01" max="TODAY" id="fromDate" placeholder="dd MMM yyyy"
+                onclick="showPicker()">
+        </div>
+        <div class="form-group slide-in">
+            <label for="toDate">To Date</label>
+            <input type="date" min="1900-01-01" max="TODAY" id="toDate" placeholder="dd MMM yyyy"
+                onclick="showPicker()">
+        </div>
+        <div class="form-group slide-in">
+            <button class="show-atten-button" id="ShowAttendance" onclick="showAttendance()">Show</button>
+        </div>
+
+        <!-- code start here -->
+
+        <div class="pd-data-container">
+            <table id="dynamicTable">
+                <thead>
+                    <tr>
+                        <th>Sr.No</th>
+                        <th>Date</th>
+                        <th>Days</th>
+                        <th>Time</th>
+                        <th>Attendance</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                    <!-- Rows will be added here by JavaScript -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Complain Window -->
+    <div class="complain" id="complain">
+        <div class="complain_header">
+            <h1 id="complainHeader">Student Complaints Page</h1>
+        </div>
+
+        <div id="complaintForm">
+            <small>All field are required</small>
+            <label for="date">Date of Complaint:</label>
+            <input class="complain-inp" type="date" min="1900-01-01" max="TODAY" id="date" required
+                onclick="showPicker()">
+
+            <label for="studentId">Student Id</label>
+            <input class="complain-inp" type="text" id="studentId" required>
+
+            <label for="complaintType">Complaint Type</label>
+            <select class="complain-inp" id="complaintType" required>
+                <option value="" hidden>Select Complaints</option>
+
+            </select>
+
+            <label for="warden">Warden</label>
+            <select class="complain-inp" id="warden" required>
+                <option value="" hidden>Select Warden</option>
+            </select>
+
+            <label for="description">Problem Description</label>
+            <textarea class="complain-inp" id="description" placeholder="Write something.." required></textarea>
+
+            <label for="uploadDoc">Upload Document (Optional)</label>
+            <input type="file" class="complain-inp" id="uploadDoc"
+                accept="Docx/.doc,Docx/.docx,Text/.txt,PDF/.pdf,Image/png,Image/jpeg,Image/jpg">
+
+            <button onclick="submitComplain()">Submit</button>
+        </div>
+
+    </div>
+    <div id="thankYouMessage" class="thank-you-message hidden">
+        <h1 id="Complain-msg">
+
+            Thank you for your complaint. We will review it shortly.<br>
+        </h1>
+        <button id="backButton" onclick="complain()">Submit Another Complaint</button>
+    </div>
+
+</body>
+
+</html>

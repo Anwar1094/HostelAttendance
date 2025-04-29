@@ -1,0 +1,360 @@
+.image-container {
+  width: 200px;
+  height: 80px;
+  margin: 20px;
+}
+
+.image-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+* {
+  margin: 0;
+  padding-block-end: 0;
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+  background: white;
+}
+
+.bg-img {
+  border-top: 3px solid red;
+  /* width: 100vh; */
+  min-width: 330px;
+  min-height: 100vh;
+  background-image: url("../src/Admin_img.jpg");
+  background-repeat: no-repeat;
+  /* height: 100vh; */
+  background-size: cover;
+  background-position: center;
+}
+
+.wrapper {
+  display: none;
+  width: 330px;
+  /* width: 440PX; */
+  padding: 2rem 1rem;
+  margin: 200px auto;
+  background-color: #fff;
+  border-radius: 10px;
+  text-align: center;
+  box-shadow: 0 20px 35px rgb(0, 0, 0, 0.1);
+}
+
+h1 {
+  font-size: 2rem;
+  color: #07001f;
+  margin-bottom: 1.2rem;
+}
+
+button {
+  display: flex;
+  font-size: 1rem;
+  margin-top: 1.8rem;
+  border-radius: 20px;
+  outline: none;
+  border: none;
+  width: 90%;
+  height: 90%;
+  color: #fff;
+  cursor: pointer;
+  background-color: rgb(17, 107, 143);
+  height: 30px;
+  align-items: center;
+  justify-content: center;
+  justify-self: center;
+}
+
+button:hover {
+  background-color: rgb(17, 107, 143, 0.877);
+}
+
+input:focus {
+  border: 1px solid rgb(192, 192, 192);
+}
+
+.terms {
+  margin-top: 0.2rem;
+}
+.terms input {
+  height: 1em;
+  width: 1em;
+  vertical-align: middle;
+  cursor: pointer;
+}
+.terms label {
+  font-size: 0.7rem;
+}
+.terms a {
+  color: rgb(17, 107, 143);
+  text-decoration: none;
+}
+
+.recover {
+  text-align: right;
+  font-size: 0.8rem;
+  margin: 0.3rem 1.4rem 0 0;
+}
+
+.recover a {
+  text-decoration: none;
+  color: rgba(54, 54, 54, 0.749);
+}
+
+.input-group {
+  position: relative;
+  margin: 20px 0;
+}
+
+.input-group label {
+  position: absolute;
+  top: 47%;
+  left: 25px;
+  transform: translateY(-50%);
+  font-size: 17px;
+  color: rgb(17, 107, 143);
+  padding: 0 5px;
+  pointer-events: none;
+  transition: 0.5s;
+}
+
+.input-group input {
+  width: 270px;
+  height: 65px;
+  font-size: 16px;
+  color: rgb(17, 107, 143);
+  padding: 0 15px;
+  background: transparent;
+  border: 1.2px solid rgb(17, 107, 143);
+  outline: none;
+  border-radius: 5px;
+}
+
+.input-group input:focus ~ label,
+.input-group input:valid ~ label {
+  top: 0;
+  font-size: 14px;
+  background: white;
+}
+
+input:-webkit-autofill,
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-box-shadow: 0 0 0 1000px white inset !important;
+  -webkit-text-fill-color: black !important;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+.checkBox-group {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+}
+
+#showPass {
+  width: 53px;
+  height: 20px;
+}
+
+.pass_not_match_label {
+  font-size: 0.8rem;
+  display: none;
+}
+
+.eye {
+  width: 25px;
+}
+.eyeBtn {
+  position: absolute;
+  display: inline;
+  width: 30px;
+  background-color: white;
+  top: -15%;
+  left: 80%;
+}
+
+.eyeBtn:hover {
+  background-color: white;
+}
+
+.spinner {
+  display: none;
+  position: absolute;
+  width: 25px;
+  height: 25px;
+  border: 3px solid white;
+  border-top: 3px solid transparent;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  justify-self: center;
+}
+
+#btnText-signin {
+  /* display: none; */
+  position: relative;
+}
+
+/* button#send-otp .spinner {
+    bottom: 23%;
+} */
+
+/* #spinner-updatePswrd {
+    bottom: 13.2%;
+} */
+
+button#send-otp:disabled {
+  background-color: grey;
+  /* background-color: #00ff00; */
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.spinDiv {
+  padding-bottom: 26px;
+}
+
+/* Register Face Window */
+.RegisterFace {
+  display: none;
+  border-radius: 10px;
+  flex-direction: column;
+  align-items: center;
+  padding: 15px;
+  background-color: white;
+  box-shadow: 10px 10px 15px rgba(0, 0, 0, 0.2);
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 33%;
+  width: 355px;
+  height: 366px;
+  animation: fadeIn 0.5s ease-in-out;
+}
+/* Video Div */
+video {
+  width: 100%;
+  max-width: 300px;
+  border-radius: 10px;
+  padding: 4px;
+  transform: scaleX(-1);
+}
+#att-h1 {
+  font-size: 28px;
+  margin-bottom: 2%;
+}
+/* Mark Attendance Button */
+.RegisterFace button {
+  display: flex;
+  font-size: 1rem;
+  margin-top: 15px;
+  border-radius: 20px;
+  outline: none;
+  border: none;
+  width: 80%;
+  color: #fff;
+  cursor: pointer;
+  background-color: rgb(17, 107, 143);
+  height: 30px;
+  align-items: center;
+  justify-content: center;
+  justify-self: center;
+}
+
+.RegisterFace button:hover {
+  background-color: rgb(17, 107, 143, 0.877);
+}
+
+#CaptureBtn:disabled {
+  background-color: gray;
+}
+
+.spinner {
+  display: none;
+  position: absolute;
+  width: 25px;
+  height: 25px;
+  border: 3px solid white;
+  border-top: 3px solid transparent;
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  justify-self: center;
+}
+
+/* Scanning Effect Start */
+.scanner {
+  position: relative;
+  width: 208px;
+  height: 158px;
+  border: 3px solid #0095ff;
+  overflow: hidden;
+  border-radius: 10px;
+  width: 300px;
+  height: 228px;
+  margin-bottom: 2%;
+}
+
+.innerDiv {
+  display: grid;
+  grid-template-columns: auto auto auto;
+  row-gap: 6px;
+  column-gap: 6px;
+}
+
+#tick,
+#cross {
+  border-radius: 50%;
+  display: none;
+  width: 30px;
+  height: 30px;
+  margin-left: 3%;
+}
+
+#tick:hover {
+  background: rgb(0, 160, 0);
+}
+#cross:hover {
+  background: rgba(255, 3, 3, 0.847);
+}
+
+.face {
+  display: none;
+  height: 60px;
+  width: 80px;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+
+#enter_otp_field {
+  display: none;
+}
+
+#passMisMatchLbl {
+  color: red;
+}
+
+#count {
+  position: absolute;
+}

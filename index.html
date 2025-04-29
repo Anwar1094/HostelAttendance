@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hostel Attendance-Signin</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</head>
+
+<body>
+    <div class="image-container">
+        <img src="./src/invertis logo.jpg" alt="Invertis logo">
+    </div>
+    <div class="bg-img" id="bg-img">
+        <div class="wrapper" id="signin_div">
+            <h1>Sign in</h1>
+            <!-- <form action="#"> -->
+            <div class="input-group">
+                <input type="text" id="inp-userId" required autofocus>
+                <label>UserName</label>
+            </div>
+            <div class="input-group">
+                <input type="password" id="inp-Pass" required style="padding-right: 40px;">
+                <label>Password</label>
+                <button class="eyeBtn" id="eyeBtn"><img class="eye" id="eyeImg"
+                        src="./src/eyeOpen.svg"></button>
+            </div>
+            <div class="recover">
+                <a href="#" id="forget" > Forget password?</a>
+            </div>
+            <button id="signin" >
+                <span id='btnText-signin' class="btnText">SIGN IN</span>
+                <span id="spinner-signin" class="spinner"></span>
+                <!-- <div class="spinDiv"> -->
+                <!-- </div> -->
+            </button>
+            <!-- </form> -->
+        </div>
+        <div class="wrapper" id="forget_password_div">
+            <h1>Forget Password</h1>
+            <!-- <form action="#"> -->
+            <div class="input-group">
+                <input type="text" id="userId-inp" required autofocus>
+                <label>UserName</label>
+            </div>
+            <div class="input-group" id="enter_otp_field">
+                <input type="text" id="otp-inp">
+                <label>Enter OTP</label>
+            </div>
+            <div class="recover">
+                <a href="#" id="back_to_signin">Back to signIn</a>
+            </div>
+            <button id="send-otp">
+                <span id='btnText-send-otp' class="btnText">Get OTP</span>
+                <span id="spinner-send-otp" class="spinner"></span>
+            </button>
+            <!-- </form> -->
+        </div>
+        <div class="wrapper" id="change_password_div">
+            <h1>Change Password</h1>
+            <div class="input-group">
+                <input type="password" id="new_pswrd" oninput="checkStrength()" required autofocus>
+                <label>New Password</label>
+            </div>
+            <div class="input-group">
+                <input type="password" id="re_pswrd" required>
+                <label>Confirm Password</label>
+            </div>
+            <div class="checkBox-group" id="checkboxPswrd">
+                <input type="checkbox" name="showPass" id="showPass">
+                <label for="showPass" style="font-size: 0.9rem;">Show Password</label><br>
+            </div>
+            <label class="pass_not_match_label" id="passMisMatchLbl" style="font-size: 0.8rem;">Password Doesn't
+                Match</label>
+            <button id="change_pswrd_btn" >
+                <span id='btnText-updatePswrd' class="btnText">Update</span>
+                <span id="spinner-updatePswrd" class="spinner" class="spinner"></span>
+            </button>
+        </div>
+    </div>
+    <script src="script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@7.12.15/dist/sweetalert2.all.min.js "></script>
+</body>
+
+</html>
