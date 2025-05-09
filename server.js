@@ -11,7 +11,7 @@ const jwt = require('jsonwebtoken')
 const path = require('path');
 // const fs = require('fs');
 const cookieParser = require("cookie-parser");
-const bcrypt = require('bcrypt')
+const bcrypt = require('bcrypt');
 
 const CountryObj = {
     "Afghanistan": [
@@ -882,7 +882,7 @@ const upload = multer({ storage });
 
 // By-passing data transfer policy of browser
 app.use(cors({
-    origin: [process.env.HOST, process.env.PyHOST, process.env.Site],
+    origin: ['https://hostelattendance-backend.onrender.com', 'https://d2g9bzfd-5501.inc1.devtunnels.ms', 'http://127.0.0.1:5000'],
     credentials: true,
 }))
 app.use(cookieParser());
@@ -913,7 +913,16 @@ var pool = createPool({
 })
 
 pool.query('SET time_zone = "+05:09";')
+pool.query('Select * from AdminData;', (err, result) => {
+    if (result?.length == 0) {
+        bcrypt.hash('Admin@9451', 10, (err, hashedPassword) => {
+            pool.query('Insert Into AdminData (User_ID, Name, Email, Password, Mobile_Number) Values (?, ?, ?, ?, ?);', ['Admin', 'Anwar', 'anwaransari66763@gmail.com', hashedPassword, '9451677758'], (err, results) => {
+                if (err) console.log(err)
+            })
 
+        })
+    }
+})
 // Create a transporter object using SMTP
 const transporter = nodemailer.createTransport({
     host: 'smtp.gmail.com',  // The SMTP server for Gmail 
@@ -994,7 +1003,7 @@ function queryDB(sql, params = []) {
     });
 }
 
-app.get('/setuser',authMiddleware, async (req, res) => {
+app.get('/setuser', authMiddleware, async (req, res) => {
     const userId = req.user.userId
     return res.status(200).json({ userId })
 })
@@ -1040,10 +1049,10 @@ app.post('/send-otp', (req, res) => {
                 // Send the email
                 transporter.sendMail(mailOptions, (error, info) => {
                     if (error) {
-                        return res.status(500).send({ otpSent: false, Title:"Error", Msg:'Some Error Occured!'  })
+                        return res.status(500).send({ otpSent: false, Title: "Error", Msg: 'Some Error Occured!' })
                     } else {
                         console.log('Email sent:', info.response);
-                        return res.status(200).json({ otpSent: true , Title:"OTP Sent", Msg:'OTP is sent to your registered Email!' })
+                        return res.status(200).json({ otpSent: true, Title: "OTP Sent", Msg: 'OTP is sent to your registered Email!' })
                     }
                 });
             }
@@ -1061,10 +1070,10 @@ app.post('/verify-otp', (req, res) => {
     if (String(OTP) === String(OTPs[userId])) {
         delete OTPs[userId]
         console.log('OTP Verified')
-        return res.status(200).json({ Verified: true, Title:"OTP Verified", Msg:'OTP Verification Successfull!' })
+        return res.status(200).json({ Verified: true, Title: "OTP Verified", Msg: 'OTP Verification Successfull!' })
     }
     res.statusMessage = 'OTP Verification Failed Server Error 422'
-    return res.status(422).json({Title: 'Invalid OTP', Msg: 'Enter Valid OTP!'})
+    return res.status(422).json({ Title: 'Invalid OTP', Msg: 'Enter Valid OTP!' })
 })
 
 /* .......................Sign In....................... */
@@ -1077,8 +1086,11 @@ app.post('/signin', (req, res) => {
     if (String(uid).startsWith('INVW')) {
         role = 'Warden'
         sqlQuery = `SELECT * FROM WardensData WHERE User_ID = ?;`
+    } else if (uid == 'Admin') {
+        role = 'Admin'
+        sqlQuery = 'Select * From AdminData WHERE User_ID = ?'
     }
-    pool.query(sqlQuery, [uid],function (err, result) {
+    pool.query(sqlQuery, [uid], function (err, result) {
         try {
             if (err) {
                 return res.status(422).json({ Title: 'DB Error', Msg: 'Database not found' });
@@ -1091,19 +1103,19 @@ app.post('/signin', (req, res) => {
                     userId = uid
                     // SECRET_KEY = `${userId}$${Password}@login`;
                     const token = jwt.sign({ userId: uid }, SECRET_KEY, { expiresIn: "1h" });
-                    if (!Image1 || !Image2 || !Image3 || !Image4 || !Image5) {
-                        const div = `<div class="RegisterFace" id="register-face-div" style="display: flex;"><h1 id="att-h1">Face Register!</h1><div class="scanner" id="scanner" ><div class="scan-line" id="scan-line" style="display: none;"></div><video id="video" autoplay=""></video><br></div><div class="innerDiv"><img class='face' id="captured-image1"><img class='face' id="captured-image2"><img class='face' id="captured-image3"><img class='face' id="captured-image4"><img class='face' id="captured-image5"><div><img id="tick" src='../src/check-mark.png'><img id="cross" src='../src/x-mark.png'></div></div><button onclick="captureImage()" id="CaptureBtn"><span id="btnText-captureImage" class="btnText">Capture</span><span id="spinner-captureImage" class="spinner"></span></button><small id='note-msg'>(Note: Click 5 Images of yourself!)</small></div>`
+                    if (role == 'Student' && (!Image1 || !Image2 || !Image3 || !Image4 || !Image5)) {
+                        const div = `<div class="RegisterFace" id="register-face-div" style="display: flex;"><h1 id="att-h1">Face Register!</h1><div class="scanner" id="scanner" ><div class="scan-line" id="scan-line" style="display: none;"></div><video class='video' id="video" autoplay=""></video><br></div><div class="innerDiv"><img class='face' id="captured-image1"><img class='face' id="captured-image2"><img class='face' id="captured-image3"><img class='face' id="captured-image4"><img class='face' id="captured-image5"><div><img id="tick" src='../src/check-mark.png'><img id="cross" src='../src/x-mark.png'></div></div><button onclick="captureImage()" id="CaptureBtn"><span id="btnText-captureImage" class="btnText">Capture</span><span id="spinner-captureImage" class="spinner"></span></button><small id='note-msg'>(Note: Click 5 Images of yourself!)</small></div>`
                         return res.status(200).json({ token, role, div });
                     }
                     return res.status(200).json({ token, role });
                 } else {
                     res.statusMessage = 'Validation Error 422'
-                    return res.status(422).json({Title: 'Password Mismatch', Msg: 'UserName or Password is Incorrect'})
+                    return res.status(422).json({ Title: 'Password Mismatch', Msg: 'UserName or Password is Incorrect' })
                 }
             })
         } catch (error) {
             res.statusMessage = 'Validation Error 422'
-            return res.status(422).json({Title: 'Password Mismatch', Msg: 'UserName or Password is Incorrect'})
+            return res.status(422).json({ Title: 'Password Mismatch', Msg: 'UserName or Password is Incorrect' })
         }
     })
 
@@ -1159,9 +1171,9 @@ app.post('/change_pswrd', (req, res) => {
         pool.query(sqlQuery, [hashedPassword, userId], function (err, results, fields) {
             if (err) {
                 console.error(err)
-                return res.status(503).send({ 'Title':'Error', Msg: 'Error during Password Changed!', Changes: false })
+                return res.status(503).send({ 'Title': 'Error', Msg: 'Error during Password Changed!', Changes: false })
             }
-            return res.status(200).send({ Title:"Password Changed!", Msg:"Password Updated Successfully!", Changes: true })
+            return res.status(200).send({ Title: "Password Changed!", Msg: "Password Updated Successfully!", Changes: true })
         })
     })
 })
@@ -1300,11 +1312,16 @@ app.post('/changeStudentpassword', authMiddleware, async (req, res) => {
 /* .......................Upload Profile....................... */
 app.post('/uploadProfile', authMiddleware, upload.single('file'), async (req, res) => {
     const userId = req.user.userId
-    console.log('ID: ', userId)
+    let sqlQuery = 'UPDATE StudentsData SET Profile=? WHERE Student_ID=?;'
+    if (userId.startsWith('Admin')) {
+        sqlQuery = 'UPDATE AdminData SET Profile=? WHERE User_ID=?;'
+    } else if (userId.startsWith('INVW')) {
+        sqlQuery = 'UPDATE WardensData SET Profile=? WHERE User_ID=?;'
+    }
     const fileData = req.file
     if (fileData) {
         const { originalname, buffer } = req.file;
-        pool.query(`UPDATE StudentsData SET Profile=? WHERE Student_ID=?;`, [buffer, userId], (err, results) => {
+        pool.query(sqlQuery, [buffer, userId], (err, results) => {
             if (err) {
                 console.log(err)
                 return res.status(503).json({ fail: true })
@@ -1314,15 +1331,22 @@ app.post('/uploadProfile', authMiddleware, upload.single('file'), async (req, re
     }
 })
 
-app.get('/setProfile', authMiddleware, async(req, res) => {
+app.get('/setProfile', authMiddleware, async (req, res) => {
     const userId = req.user.userId
-    pool.query(`SELECT Profile FROM StudentsData Where Student_ID=?`, [userId], (err, results) => {
+    let sqlQuery = 'SELECT Profile FROM StudentsData Where Student_ID=?'
+    if (userId.startsWith('Admin')) {
+        sqlQuery = 'SELECT Profile FROM AdminData Where User_ID=?'
+    } else if (userId.startsWith('INVW')) {
+        sqlQuery = 'SELECT Profile FROM WardensData Where User_ID=?'
+    }
+    pool.query(sqlQuery, [userId], (err, results) => {
         if (err) {
             console.log(err)
             return res.status(503).send('DB Error')
         }
         try {
             res.set('Content-Type', 'image/png');
+            console.log(results)
             if (!results[0]['Profile']) return res.status(404).send('Image not Found!')
             return res.status(200).send(results[0]['Profile'])
         } catch {
@@ -1370,7 +1394,7 @@ app.use(bodyParser.json());
 /* .......................Save Image to Database....................... */
 // Route to save image
 app.post('/save-image', (req, res) => {
-    const {images} = req.body;
+    const { images } = req.body;
     images.push(userId)
     pool.query(`Update StudentsData Set Image1=?, Image2=?, Image3=?, Image4=?, Image5=? WHERE Student_ID=?;`, images, (err, results, fields) => {
         if (err) {
@@ -1400,20 +1424,19 @@ function getFormattedTimestamp() {
 var studentId
 app.post('/verifyAttendance', (req, res) => {
     studentId = req.body.Student_Id
-    console.log(studentId);
     return res.status(200).json({ success: true })
 })
 app.post('/markAttendance', authMiddleware, async (req, res) => {
     const { Student_ID } = req.body
     const userId = req.user.userId
-
+    console.log(Student_ID)
     const date = new Date().toISOString().split('T')[0];
     const Time = new Date().toLocaleString('en-GB', {
         hour: '2-digit', minute: '2-digit', second: '2-digit',
         hour12: true
     });
     if (userId == Student_ID && studentId == Student_ID) {
-        pool.query(`Insert Into AttendanceData (TimeStamp, Date, Time, Attendance, Student_ID, Hostel, Room_Number, Day) values ('${getFormattedTimestamp()}', '${date}', '${Time}', 'Present', '${Student_ID}', 'Himgiri','F-16', WEEKDAY(CURDATE()))`, (err, result) => {
+        pool.query('Insert Into AttendanceData (TimeStamp, Date, Time, Attendance, Student_ID, Hostel, Room_Number, Day) values (?, ?, ?, ?, ?, ?, ?, ?)', [getFormattedTimestamp(), date, Time, 'Present', Student_ID, 'Himgiri', 'F-16', 'WEEKDAY(CURDATE()))'], (err, result) => {
             console.log(result)
             if (err) {
                 return res.status(503).json(err)
@@ -1556,7 +1579,481 @@ app.post('/updateStudentData', (req, res) => {
     })
 })
 
+app.get('/fetchAdmin', authMiddleware, async (req, res) => {
+    const userId = req.user.userId;
+    const data = { Hostels: null, Students: null, Wardens: null, Complaints: null }
+    let adminData = {}
+    try {
+        let result = await queryDB('Select count(Distinct HostelID) as Hostels From Hostels;')
+        data.Hostels = result[0].Hostels;
+        result = await queryDB('Select count(Distinct Student_ID) as Students From StudentsData;')
+        data.Students = result[0].Students;
+        result = await queryDB('Select count(Distinct User_ID) as Wardens From WardensData;')
+        data.Wardens = result[0].Wardens;
+        result = await queryDB('Select count(Distinct id) as Complaints From Complaints;')
+        data.Complaints = result[0].Complaints;
+        result = await queryDB('Select User_ID, Name From AdminData Where User_ID=?;', [userId])
+        adminData = result[0];
+        console.log(data, adminData)
+        if (Object.values(data).includes(null))
+            return res.status(400).json({ err: 'Data Missing' });
+        return res.status(200).json({ data, adminData })
+    } catch (error) {
+        console.log(error)
+        return res.status(500).json({ err: 'Some Error Occured!' });
+    }
+})
+
+/* ----------------- Add Warden ---------------------- */
+var countryCodes = { 'BB(+1-246)': [10], 'BD(+880)': [10], 'BE(+32)': [9], 'BF(+226)': [8], 'BG(+359)': [9], 'BH(+973)': [8], 'BI(+257)': [8], 'BJ(+229)': [8], 'BL(+590)': [9], 'BM(+1-441)': [10], 'BN(+673)': [7], 'BO(+591)': [9], 'BR(+55)': [11], 'BS(+1-242)': [10], 'BT(+975)': [7], 'BV(+47)': [10], 'BW(+267)': [7], 'BY(+375)': [9], 'BZ(+501)': [7], 'CA(+1)': [10], 'CC(+61)': [10], 'CD(+243)': [7], 'CF(+236)': [8], 'IN(+91)': [10] }
+app.get("/country-codes", (req, res) => {
+    let options = ''
+    Object.keys(countryCodes).forEach(ele => {
+        if (ele === 'IN(+91)') {
+            options += `<option value="${String(ele)}" selected >${String(ele)}</option>`
+        } else {
+            options += `<option value="${String(ele)}">${String(ele)}</option>`
+        }
+    })
+    res.send(options);
+});
+app.post('/format-mobile', (req, res) => {
+    const { number, country } = req.body;
+    const digits = number.replace(/\D/g, '').substring(0, Number(countryCodes[country]));
+    res.json({ validated: digits, len_phonenumber: Number(countryCodes[country]) });
+});
+app.post('/format-aadhar', (req, res) => {
+    const { aadhaar } = req.body;
+    const digits = aadhaar.replace(/\D/g, '').substring(0, 12); // Keep only digits, max 12
+    const chunks = digits.match(/.{1,4}/g);                     // Split into chunks of 4
+    const formatted = chunks ? chunks.join('-') : '';
+    res.json({ formatted });
+});
+app.get('/fetchHostels', (req, res) => {
+    pool.query('Select HostelID, HostelName From Hostels;', (err, result) => {
+        if (err) {
+            console.log(err)
+            return res.status(503).json(err);
+        }
+        res.status(200).json(result);
+    })
+})
+const getCurrentDate = () => {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = (`0${today.getMonth() + 1}`).slice(-2); // zero-padded
+    const day = (`0${today.getDate()}`).slice(-2);        // zero-padded
+    return `${year}-${month}-${day}`;
+};
+// Add Warden
+app.post('/addWarden', (req, res) => {
+    const errMsgs = {
+        'warden_Id_error': false, 'warden_name_error': false, 'warden_gender_error': false, 'warden_dob_error': false, 'warden_age_error': false, 'warden_mobile_error': false, 'warden_email_error': false, 'warden_adhaar_error': false, 'warden_country_error': false, 'warden_state_error': false, 'warden_city_error': false, 'warden_postal_code_error': false,
+        'warden_address_error': false
+    }
+    const { wardenId, name, gender, dob, age, contact, email, adhaar, country, state, city, postal_code, address, hostel } = req.body;
+    console.log({ wardenId, name, gender, dob, contact, email, address, hostel })
+    errMsgs['warden_Id_error'] = (wardenId == "") ? true : false;
+    const nameRegex = /^[A-Za-z\s]+$/;
+    errMsgs['warden_name_error'] = (!nameRegex.test(name)) ? true : false;
+    errMsgs['warden_gender_error'] = (gender == "") ? true : false;
+    errMsgs['warden_dob_error'] = (dob == "") ? true : false;
+    errMsgs['warden_age_error'] = (age == "") ? true : false;
+    errMsgs['warden_mobile_error'] = (contact == "") ? true : false;
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(com|in|edu|net|org)$/;
+    errMsgs['warden_email_error'] = (!emailRegex.test(email)) ? true : false;
+    errMsgs['warden_adhaar_error'] = (!adhaar) ? true : false;
+    errMsgs['warden_country_error'] = (!country) ? true : false;
+    errMsgs['warden_state_error'] = (!state) ? true : false;
+    errMsgs['warden_city_error'] = (!city) ? true : false;
+    errMsgs['warden_postal_code_error'] = (!postal_code) ? true : false;
+    errMsgs['warden_address_error'] = (address == "") ? true : false;
+    errMsgs['warden_hostel_error'] = (hostel.length == 0) ? true : false;
+    if (Object.values(errMsgs).includes(true)) {
+        return res.status(403).json(errMsgs)
+    }
+    const qry = 'Insert Into WardensData (User_ID, Name, Gender, DOB, Age, Password, Date_of_Joining, Mobile_Number, Email, Adhaar, Country, State, City, Postal_Code, Address) Values (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);'
+    const password = name.split(' ')[0] + '@' + adhaar.slice(adhaar.length - 4, adhaar.length)
+    console.log(password)
+    bcrypt.hash(password, 10, (err, hashedPassword) => {
+        if (err) {
+            console.log(err)
+            return res.status(500).json(err)
+        }
+        const data = [wardenId, name, gender, dob, age, hashedPassword, getCurrentDate(), contact, email, adhaar, country, state, city, postal_code, address]
+        pool.query(qry, data, (err, results) => {
+            if (err) return res.status(503).json(err);
+            pool.query('Update Hostels SET WardenId=? Where HostelID IN (?)', [wardenId, hostel], (err, result) => {
+                if (err) {
+                    console.log(err)
+                    return res.status(503).json(err)
+                }
+            })
+            return res.status(200).json(wardenId)
+        })
+    });
+})
+
+/* ----------------- Update Warden ---------------------- */
+app.post('/fetchHostel', (req, res) => {
+    const userId = req.body.userId;
+    pool.query('Select HostelID From Hostels Where WardenId=?;', [userId], (err, result) => {
+        if (err) {
+            console.log(err)
+            return res.status(503).json(err);
+        }
+        res.status(200).json(result);
+    })
+})
+app.post('/fetchWardenData', (req, res) => {
+    const userId = req.body.userId;
+    if (!userId) return res.status(403).json({ 'error-message-warden': true })
+    pool.query('Select * from WardensData Where User_ID=?;', [userId], (err, results) => {
+        if (err) return res.status(503).json(err);
+        res.status(200).json(results)
+    })
+})
+app.post('/verifyHostel', (req, res) => {
+    const { hostels, userId } = req.body;
+    pool.query('Select HostelID, WardenId from Hostels Where WardenId Is NOT NULL AND NOT WardenId = ? AND HostelID IN (?);', [userId, hostels], (err, result) => {
+        if (err) return res.status(503).json(err);
+        res.status(200).json(result)
+    })
+})
+app.post('/updateWarden', (req, res) => {
+    const { userId, wardenId, name, gender, dob, age, contact, email, adhaar, doj, country, state, city, postal_code, address, resetPassword, delProfile, hostels } = req.body;
+    let Password = `${name.split(' ')[0]}@${adhaar.slice(adhaar.length - 4, adhaar.length)}`
+    const errMsgs = {
+        'updatewarden_Id_error': false, 'updatewarden_name_error': false, 'updatewarden_gender_error': false, 'updatewarden_dob_error': false, 'updatewarden_age_error': false, 'updatewarden_mobile_error': false, 'updatewarden_email_error': false, 'updatewarden_adhaar_error': false, 'updatewarden_joining_error': false, 'updatewarden_country_error': false, 'updatewarden_state_error': false, 'updatewarden_city_error': false, 'updatewarden_postal_code_error': false,
+        'updatewarden_address_error': false, 'updatewarden_hostel_error': false
+    };
+    errMsgs['warden_Id_error'] = (wardenId == "") ? true : false;
+    const nameRegex = /^[A-Za-z\s]+$/;
+    errMsgs['updatewarden_name_error'] = (!nameRegex.test(name)) ? true : false;
+    errMsgs['updatewarden_gender_error'] = (gender == "") ? true : false;
+    errMsgs['updatewarden_dob_error'] = (dob == "") ? true : false;
+    errMsgs['updatewarden_age_error'] = (age == "") ? true : false;
+    errMsgs['updatewarden_mobile_error'] = (contact == "") ? true : false;
+    const emailRegex = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.(com|in|edu|net|org)$/;
+    errMsgs['updatewarden_email_error'] = (!emailRegex.test(email)) ? true : false;
+    errMsgs['updatewarden_adhaar_error'] = (!adhaar) ? true : false;
+    errMsgs['updatewarden_joining_error'] = (!doj) ? true : false;
+    errMsgs['updatewarden_country_error'] = (!country) ? true : false;
+    errMsgs['updatewarden_state_error'] = (!state) ? true : false;
+    errMsgs['updatewarden_city_error'] = (!city) ? true : false;
+    errMsgs['updatewarden_postal_code_error'] = (!postal_code) ? true : false;
+    errMsgs['updatewarden_address_error'] = (address == "") ? true : false;
+    errMsgs['updatewarden_hostel_error'] = (hostels.length == 0) ? true : false;
+    if (Object.values(errMsgs).includes(true)) {
+        return res.status(403).json(errMsgs)
+    }
+    bcrypt.hash(Password, 10, (err, hashedPassword) => {
+        if (err) return res.status(503).json(err);
+        let qry = `Update WardensData SET Name=?, Gender=?, DOB=?, Age=?, Mobile_Number=?, Email=?, Adhaar=?, Date_of_Joining=?, Country=?, State=?, City=?, Postal_Code=?, Address=?${(resetPassword) ? ', Password="' + hashedPassword + '"' : ''}${(delProfile) ? ', Profile=NULL' : ''} Where User_ID=?;`
+        console.log(qry, [name, gender, dob, age, contact, email, adhaar, doj, country, state, city, postal_code, address, userId])
+        pool.query(qry, [name, gender, dob, age, contact, email, adhaar, doj, country, state, city, postal_code, address, userId], (err, result) => {
+            if (err) return res.status(503).json(err);
+            console.log(result)
+        })
+    })
+    if (hostels.length > 0) {
+        pool.query('Update Hostels SET WardenId = NULL Where WardenId = ?;', [userId], (err, result) => {
+            if (err) return res.status(503).json(err);
+            pool.query('Update Hostels SET WardenId = ? Where HostelID IN (?);', [userId, hostels], (err, result) => {
+                if (err) return res.status(503).json(err);
+                console.log(result)
+            })
+        })
+    }
+    res.status(200).json({ success: true })
+})
+
+/* ----------------- Remove Warden ---------------------- */
+app.post('/removeWarden', (req, res) => {
+    const errMsgs = { 'remove-warden-id-error': false, 'remove-warden-removalreason-error': false, 'remove-admin-auth-error': false }
+    const { wardenId, reason, adminPass } = req.body;
+    errMsgs['remove-warden-id-error'] = (!wardenId) ? true : false;
+    errMsgs['remove-warden-removalreason-error'] = (!reason) ? true : false;
+    errMsgs['remove-admin-auth-error'] = (!adminPass) ? true : false;
+    if (Object.values(errMsgs).includes(true)) return res.status(403).json(errMsgs);
+    pool.query('Select Password from AdminData Where User_ID = ?', 'Admin', (err, result) => {
+        if (err) {
+            console.log(err)
+            return res.status(503).json(err);
+        }
+        Password = result[0].Password
+        console.log(Password, adminPass)
+        bcrypt.compare(adminPass, Password, (err, isMatch) => {
+            if (err) {
+                console.log(err)
+                return res.status(500).json(err);
+            }
+            console.log(isMatch)
+            if (!isMatch) return res.status(400).json({ Title: 'Unauthorized', Msg: 'Password Not Matched!', errMsgs });
+            else {
+                pool.query('Delete From WardensData where User_ID=?;', [wardenId], (req, result) => {
+                    if (err) return res.status(500).json(err);
+                    pool.query('Update Hostels SET WardenID = NULL WHERE WardenID=?', [wardenId], (err, result) => {
+                        if (err) return res.status(500).json(err);
+                        res.status(200).json({ success: true });
+                    })
+                })
+            }
+        })
+    })
+})
+
+/* .......................Add Hostel....................... */
+app.post('/addHostel', (req, res) => {
+    const err = { 'addhostel_hostel_error': false, 'addhostel_floors_error': false }
+    const { hostelName, numFloors } = req.body
+    if (!hostelName) {
+        err['addhostel_hostel_error'] = true
+    }
+    if (!numFloors) {
+        err['addhostel_floors_error'] = true
+    }
+    if (Object.values(err).includes(true)) return res.status(403).json(err);
+    res.status(200).json({ success: true })
+})
+
+app.post('/saveHostel', (req, res) => {
+    const { hostelName, floors } = req.body;
+    console.log(floors)
+    if (!hostelName || !floors?.length) {
+        return res.status(400).json({ error: 'Missing hostelName or floors' });
+    }
+
+    // Insert hostel first
+    pool.query(
+        'INSERT INTO Hostels (HostelName, NumFloors) VALUES (?, ?)',
+        [hostelName, floors.length],
+        (err, result) => {
+            if (err) {
+                return res.status(500).json(err);
+            }
+
+            const hostelID = result.insertId;
+            const roomValues = [];
+
+            for (const floor of floors) {
+                for (const room of floor.rooms) {
+
+                    const roomTypeMap = {
+                        '1': 'Single',
+                        '2': 'Double',
+                        '3': 'Triple',
+                        '4': 'Four',
+                        'Common': 'Common' // or adjust as needed
+                    };
+                    const capacityMap = {
+                        'Single': 1,
+                        'Double': 2,
+                        'Triple': 3,
+                        'Four': 4,
+                        'Common': 12,
+                    };
+
+                    const type = roomTypeMap[room.roomType];
+                    console.log(room.roomType)
+                    console.log(type)
+                    const capacity = capacityMap[type] || 1;
+
+                    roomValues.push([
+                        hostelID,
+                        floor.floorNumber,
+                        room.roomNumber,
+                        type,
+                        room.acType === 'NON-AC' ? 'Non-AC' : 'AC',
+                        capacity
+                    ]);
+                }
+            }
+
+            // Insert rooms in bulk
+            pool.query(
+                `INSERT INTO Rooms (HostelID, FloorNumber, RoomNumber, RoomType, RoomACType, Capacity) VALUES ?`,
+                [roomValues],
+                (err2) => {
+                    if (err2) {
+                        console.error('Error inserting rooms:', err2);
+                        return res.status(500).json(err2);
+                    }
+                    return res.json({ success: true, message: 'Hostel and rooms saved successfully.' });
+                }
+            );
+        }
+    );
+});
+/* .......................Update Hostel....................... */
+app.post('/getHostelData', (req, res) => {
+    const hostelId = req.body.hostelId;
+    pool.query('Select * from Hostels Where HostelID=?;', [hostelId], (err, results) => {
+        if (err) return res.status(503).json(err);
+        res.status(200).json(results)
+    })
+})
+app.post('/updateHostel', (req, res) => {
+    const { hostelId, hostelName, numFloors } = req.body;
+    pool.query('Select NumFloors From Hostels Where HostelID=?', [hostelId], (err, result) => {
+        if (err) res.status(503).json(err);
+        const { NumFloors } = result[0]
+        if (numFloors < NumFloors) {
+            return res.status(400).json({ success: false })
+        } else {
+            res.status(200).json({ success: true })
+        }
+    })
+})
+app.post('/fetchRooms', (req, res) => {
+    const { hostelId } = req.body;
+    pool.query('Select * from Rooms Where HostelID=?', [hostelId], (err, result) => {
+        if (err) return res.status(503).json(err);
+        res.status(200).json(result)
+    })
+})
+app.post('/setUpdateHostel', (req, res) => {
+    const { hostelId } = req.body;
+    const { hostelName, numFloors, floors } = req.body.hostelData;
+    console.log(req.body)
+    if (!floors?.length) {
+        return res.status(400).json({ error: 'Missing floors' });
+    }
+
+    const hostelID = hostelId
+    console.log(hostelID, floors)
+    pool.query('Delete from Rooms Where HostelID=?', [hostelID], (err, result) => {
+        if (err) return res.status(503).json(err);
+
+        const roomValues = [];
+
+        for (const floor of floors) {
+            for (const room of floor.rooms) {
+
+                const roomTypeMap = {
+                    '1': 'Single',
+                    '2': 'Double',
+                    '3': 'Triple',
+                    '4': 'Four',
+                    'Common': 'Common' // or adjust as needed
+                };
+                const capacityMap = {
+                    'Single': 1,
+                    'Double': 2,
+                    'Triple': 3,
+                    'Four': 4,
+                    'Common': 12,
+                };
+
+                const type = roomTypeMap[room.roomType];
+                console.log(room.roomType)
+                console.log(type)
+                const capacity = capacityMap[type] || 1;
+
+                roomValues.push([
+                    hostelID,
+                    floor.floorNumber,
+                    room.roomNumber,
+                    type,
+                    room.acType === 'NON-AC' ? 'Non-AC' : 'AC',
+                    capacity
+                ]);
+            }
+        }
+        pool.query('Update Hostels SET HostelName = ?, NumFloors=? Where HostelID=?', [hostelName, numFloors, hostelId], (err, results) => {
+            if (err) return res.status(503).json(err);
+            pool.query(
+                `INSERT INTO Rooms (HostelID, FloorNumber, RoomNumber, RoomType, RoomACType, Capacity) VALUES ?`,
+                [roomValues],
+                (err2, results) => {
+                    if (err2) {
+                        console.error('Error inserting rooms:', err2);
+                        return res.status(500).json({ error: 'Failed to insert rooms' });
+                    }
+                    return res.json({ success: true, message: 'Hostel and rooms saved successfully.' });
+                }
+            );
+        })
+    })
+})
+
+/* .......................Remove Hostel....................... */
+app.post('/removeHostel', (req, res) => {
+    const errMsgs = { 'remove-hostel-name-error': false, 'remove-hostel-removalreason-error': false, 'admin-auth-error': false }
+    const { hostelId, reason, adminPass } = req.body;
+    errMsgs['remove-hostel-name-error'] = (!hostelId) ? true : false;
+    errMsgs['remove-hostel-removalreason-error'] = (!reason) ? true : false;
+    errMsgs['admin-auth-error'] = (!adminPass) ? true : false;
+    if (Object.values(errMsgs).includes(true)) return res.status(403).json(errMsgs);
+    pool.query('Select Password from AdminData Where User_ID = ?', 'Admin', (err, result) => {
+        if (err) {
+            console.log(err)
+            return res.status(503).json(err);
+        }
+        Password = result[0].Password
+        console.log(Password, adminPass)
+        bcrypt.compare(adminPass, Password, (err, isMatch) => {
+            if (err) {
+                console.log(err)
+                return res.status(500).json(err);
+            }
+            if (!isMatch) return res.status(400).json({ Title: 'Unauthorized', Msg: 'Password Not Matched!', errMsgs });
+            else {
+                pool.query('Delete From Rooms Where HostelID=?', [hostelId], (err, result) => {
+                    if (err) return res.status(503).json(err);
+                })
+                pool.query('Delete From Hostels where HostelID=?;', [hostelId], (req, result) => {
+                    if (err) return res.status(500).json(err);
+                    return res.status(200).json({ success: true })
+                })
+            }
+        })
+    })
+})
+
+/* ....................... View Summary ....................... */
+app.get('/viewSummary', async (req, res) => {
+    try {
+        const [{StudentCount}] = await queryDB('Select Count(*) as StudentCount from StudentsData;')
+        const [{WardenCount}] = await queryDB('Select Count(*) as WardenCount from WardensData;')
+        const [{RoomCount}] = await queryDB('Select Count(*) as RoomCount from Rooms;')
+        const [{HostelCount}] = await queryDB('Select Count(*) as HostelCount from Hostels;')
+        const [{ComplaintCount}] = await queryDB('Select Count(*) as ComplaintCount from Complaints;')
+        const hostels = await queryDB('Select HostelName, WardenID from Hostels Order By HostelName;')
+        const wardensData = await queryDB('Select User_ID, Name from WardensData;')
+        const attendanceData = await queryDB('SELECT Hostel, Attendance, COUNT(*) AS total FROM AttendanceData WHERE Date=CURDATE() AND Attendance IN ("Present", "Absent") GROUP BY Hostel, Attendance ORDER BY Hostel, Attendance;')
+        const hostelData = await queryDB('SELECT hostel.HostelName, hostel.NumFloors, room.FloorNumber, COUNT(*) AS RoomCount FROM Hostels hostel JOIN Rooms room ON hostel.HostelID = room.HostelID GROUP BY hostel.HostelName, hostel.NumFloors, room. FloorNumber ORDER BY hostel.HostelName, room.FloorNumber;')
+        const complaintData = await queryDB('SELECT complain, COUNT(*) AS total FROM Complaints GROUP BY complain;')
+        let attendanceSummary = {}
+        let wardenSummary = {}
+        let hostelSummary = {}
+        let complaintSummary = { 'TotalComplaints': ComplaintCount }
+        wardensData.forEach(data => wardenSummary[data.Name] = [])
+        complaintData.forEach(data => complaintSummary[data.complain] = data.total)
+        hostels.forEach(data => {
+            attendanceSummary[data.HostelName] = { 'Present': 0, 'Absent': 0 }
+            wardensData.forEach(wardendata => {
+                if (wardendata.User_ID == data.WardenID) {
+                    wardenSummary[wardendata.Name].push(data.HostelName)
+                }
+            })
+        })
+        attendanceData.forEach(data => {
+            if (data.Attendance == 'Present') attendanceSummary[data.Hostel]['Present'] = data.total;
+            if (data.Attendance == 'Absent') attendanceSummary[data.Hostel]['Absent'] = data.total;
+        })
+        hostelData.forEach(data => {
+            if (!hostelSummary[data.HostelName]) hostelSummary[data.HostelName] = { 'NumFloors': data.NumFloors };
+            hostelSummary[data.HostelName][`Floor-${data.FloorNumber}`] = data.RoomCount
+        })
+        console.log({StudentCount, WardenCount, RoomCount, HostelCount, attendanceSummary, wardenSummary, hostelSummary, complaintSummary})
+        return res.status(200).json({StudentCount, WardenCount, RoomCount, HostelCount, attendanceSummary, wardenSummary, hostelSummary, complaintSummary})
+    } catch (error) {
+        return res.status(503).json(error)
+    }
+})
+
+
 app.listen(port, () => {
     console.log(`Server Listening at: http://localhost:${port}`)
 })
-
